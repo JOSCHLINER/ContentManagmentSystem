@@ -1,0 +1,55 @@
+services:
+  
+  # mysql database container
+  mysql:
+    container_name: mysql-container
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '127.0.0.1:3306:3306'
+    volumes_from:
+      - mysql-data
+
+  # container for holding the data of the database
+  mysql-data:
+    container_name: mysql-data
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ../databases:/docker-entrypoint-initdb.d
+    command: "true"
+
+  # nginx container used as webserver
+  nginx:
+    container_name: nginx-container
+    build: ./nginx/
+    restart: always
+    ports:
+      - 80:80
+    links:
+      - php
+    volumes_from:
+      - app-data
+
+  # php container to manage php requests
+  php:
+    container_name: php-container
+    image: php:8-fpm
+    restart: always
+    expose:
+      - 9000
+    volumes_from:
+      - app-data
+
+  # container for holding the scripts for the app 
+  app-data:
+    container_name: app-data-container
+    image: php:8-fpm
+    restart: always
+    volumes:
+      - ../www/html/:/var/www/html/
+    command: "true"
