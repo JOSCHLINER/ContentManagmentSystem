@@ -1,0 +1,3 @@
+
+# ignore the www/html directory which is created in bash script
+www/html/
