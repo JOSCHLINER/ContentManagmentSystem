@@ -38,7 +38,7 @@ services:
   # php container to manage php requests
   php:
     container_name: php-container
-    image: php:8-fpm
+    build: ./php/
     restart: always
     expose:
       - 9000
