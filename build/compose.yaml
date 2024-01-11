@@ -3,7 +3,7 @@ services:
   # mysql database container
   mysql:
     container_name: mysql-container
-    image: mysql:latest
+    build: ../databases/
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
