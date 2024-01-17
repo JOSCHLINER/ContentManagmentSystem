@@ -42,6 +42,8 @@ services:
     restart: always
     expose:
       - 9000
+    links:
+      - mysql
     volumes_from:
       - app-data
 

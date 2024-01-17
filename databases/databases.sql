@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS articles(
 );
 
 -- Creating the user for the content managment system to use
-CREATE USER IF NOT EXISTS 'cmswebbpage'@'localhost'
+CREATE USER IF NOT EXISTS 'cmswebbpage'@'127.0.0.1'
 IDENTIFIED WITH authentication_plugin BY 'secure_password';
 
-GRANT INSERT, UPDATE, DELETE, SELECT ON contentmanagment.* TO 'cmswebbpage'@'localhost' WITH GRANT OPTION;
+GRANT INSERT, UPDATE, DELETE, SELECT ON contentmanagment.* TO 'cmswebbpage'@'127.0.0.1' WITH GRANT OPTION;
 FLUSH PRIVILEGES;

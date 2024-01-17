@@ -1,3 +1,14 @@
+<?php
+
+//phpinfo();
+
+require __DIR__. "/database.model.php";
+
+$conn = new DatabaseConnection("contentmanagment", "127.0.0.1", "root", "root");
+echo $conn.query("SHOW TABLES;");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
