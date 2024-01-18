@@ -15,7 +15,6 @@ class DatabaseConnection
         $this->hostname = $hostname;
         $this->username = $username;
         $this->password = $password;
-        echo "hi";
 
         $this->connect();
     }
@@ -31,7 +30,7 @@ class DatabaseConnection
                 throw new Exception('Connection error with database: ' . $this->connection->connect_error);
             }
         } catch (Exception $error) {
-            die('Failed to connect to database: ' . $error->getMessage());
+            die('Failed to connect to database: ' . $error->getMessage() . $error);
         }
     }
 
@@ -44,8 +43,8 @@ class DatabaseConnection
 
         try {
             $prepared = ($this->connection)->prepare($sql);
-        } catch (Exception $e) {
-            throw new Exception('SQL statement preparation failed: ' . $e->getMessage());
+        } catch (Exception $error) {
+            throw new Exception('SQL statement preparation failed: ' . $error->getMessage());
             return null;
         }
 
@@ -56,10 +55,24 @@ class DatabaseConnection
             $result = $prepared->get_result();
 
             $prepared->close();
-        } catch (Exception $e) {
-            throw new Exception('Execution of SQL statement failed: ' . $e->getMessage());
+        } catch (Exception $error) {
+            throw new Exception('Execution of SQL statement failed: ' . $error->getMessage());
             return null;
         }
+
+        return $result;
+    }
+
+    public function _unsafe_query(string $sql) {
+        try {
+            if ($this->connection->connect_error) {
+                throw new Exception('Connection to Database lost: ' . $this->connection->connect_error);
+            }
+
+            $result = $this->connection -> query($sql);
+        }   catch (Exception $error) {
+            die('Failed to query database' . $error->getMessage());
+        } 
 
         return $result;
     }

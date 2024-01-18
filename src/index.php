@@ -4,8 +4,9 @@
 
 require __DIR__. "/database.model.php";
 
-$conn = new DatabaseConnection("contentmanagment", "127.0.0.1", "root", "root");
-echo $conn.query("SHOW TABLES;");
+$conn = new DatabaseConnection("contentmanagment", "mysql", "root", "root");
+$result = $conn -> _unsafe_query("SHOW TABLES;");
+print_r($result -> fetch_assoc());
 
 ?>
 
