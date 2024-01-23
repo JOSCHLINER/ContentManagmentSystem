@@ -51,5 +51,5 @@ services:
     image: php:8-fpm
     restart: always
     volumes:
-      - ../www/html/:/var/www/html/
+      - ../src/:/var/www/html/
     command: "true"
