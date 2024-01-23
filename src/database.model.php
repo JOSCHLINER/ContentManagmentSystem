@@ -1,6 +1,6 @@
 <?php
 
-class DatabaseConnection
+class Database
 {
 
     #construct function; will retrieve required information to connect to said database
@@ -25,54 +25,49 @@ class DatabaseConnection
     {
         try {
             $this->connection = new mysqli($this->hostname, $this->username, $this->password, $this->database);
-
-            if ($this->connection->connect_error) {
-                throw new Exception('Connection error with database: ' . $this->connection->connect_error);
-            }
+            $this->testDatabaseConnection();
         } catch (Exception $error) {
             die('Failed to connect to database: ' . $error->getMessage() . $error);
         }
     }
 
-    # function to query the articles table
-    public function query(string $sql, array $params = [], string $types = "")
+    public function testDatabaseConnection()
     {
         if ($this->connection->connect_error) {
-            die('Connection error with database: ' . $this->connection->connect_error);
+            throw new Exception('Connection error with database: ' . $this->connection->connect_error);
         }
+    }
+
+    # function to query the articles table
+    public function queryConnection(string $sql, array $params = [], string $types = "")
+    {
+        $this->testDatabaseConnection();
 
         try {
             $prepared = ($this->connection)->prepare($sql);
-        } catch (Exception $error) {
-            throw new Exception('SQL statement preparation failed: ' . $error->getMessage());
-            return null;
-        }
-
-        try {
             $prepared->bind_param($types, ...$params);
             $prepared->execute();
-            
+
             $result = $prepared->get_result();
 
             $prepared->close();
         } catch (Exception $error) {
             throw new Exception('Execution of SQL statement failed: ' . $error->getMessage());
-            return null;
+            return;
         }
 
         return $result;
     }
 
-    public function _unsafe_query(string $sql) {
+    public function queryConnectionUnsafe(string $sql)
+    {
         try {
-            if ($this->connection->connect_error) {
-                throw new Exception('Connection to Database lost: ' . $this->connection->connect_error);
-            }
+            $this->testDatabaseConnection();
 
-            $result = $this->connection -> query($sql);
-        }   catch (Exception $error) {
+            $result = $this->connection->query($sql);
+        } catch (Exception $error) {
             die('Failed to query database' . $error->getMessage());
-        } 
+        }
 
         return $result;
     }
