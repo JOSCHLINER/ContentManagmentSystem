@@ -3,7 +3,6 @@
 class Database
 {
 
-    #construct function; will retrieve required information to connect to said database
     private $hostname;
     private $database;
     private $username;
@@ -31,6 +30,13 @@ class Database
         }
     }
 
+    private function closeDatabaseConnection() {
+        # closing connection if one exists and is active
+        if ($this->connection instanceof mysqli) {
+            $this->connection->close();
+        }
+    }
+
     public function testDatabaseConnection()
     {
         if ($this->connection->connect_error) {
@@ -41,9 +47,9 @@ class Database
     # function to query the articles table
     public function queryConnection(string $sql, array $params = [], string $types = "")
     {
-        $this->testDatabaseConnection();
-
         try {
+            $this->testDatabaseConnection();
+
             $prepared = ($this->connection)->prepare($sql);
             $prepared->bind_param($types, ...$params);
             $prepared->execute();
@@ -63,7 +69,6 @@ class Database
     {
         try {
             $this->testDatabaseConnection();
-
             $result = $this->connection->query($sql);
         } catch (Exception $error) {
             die('Failed to query database' . $error->getMessage());
@@ -74,9 +79,6 @@ class Database
 
     public function __destruct()
     {
-        # closing connection if one exists and is active
-        if ($this->connection instanceof mysqli) {
-            $this->connection->close();
-        }
+        $this->closeDatabaseConnection();
     }
 }
