@@ -3,6 +3,7 @@ sudo apt update && sudo apt upgrade -y
 # moving files into the directory for nginx
 mkdir ../www/html/
 cp -a ../src/. ../www/html/
+chmod 777 ../www/html/configuration/settings.ini
 
 # install docker
 # sudo apt install apt-transport-https ca-certificates curl software-properties-common
