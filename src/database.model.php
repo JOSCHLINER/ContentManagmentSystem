@@ -1,43 +1,70 @@
 <?php
 
+namespace Model\Database;
+
+use mysqli;
+use Exception;
+
 class Database
 {
-
-    private $hostname;
-    private $database;
-    private $username;
-    private $password;
-
-    public function __construct(string $database, string $hostname, string $username, string $password)
+    public function __construct()
     {
-        $this->database = $database;
-        $this->hostname = $hostname;
-        $this->username = $username;
-        $this->password = $password;
-
-        $this->connect();
+        if ($this->settingsAreLoaded()) {
+            $this->connect();
+        } else {
+            throw new Exception('The database settings were not loaded before initialization of the database class');
+        }
     }
 
     # function for connecting to the database
-    private $connection;
-    private function connect()
+    private mysqli $connection;
+    private function connect(): void
     {
         try {
-            $this->connection = new mysqli($this->hostname, $this->username, $this->password, $this->database);
+            $this->connection = new mysqli(self::$hostname, self::$username, self::$password, self::$database, self::$port);
             $this->testDatabaseConnection();
         } catch (Exception $error) {
             die('Failed to connect to database: ' . $error->getMessage() . $error);
         }
     }
 
-    private function closeDatabaseConnection() {
-        # closing connection if one exists and is active
+    # using Singleton pattern to always use the same class
+    private static self $instance;
+    public static function getInstance(): self
+    {
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    private static string $hostname;
+    private static string $database;
+    private static string $username;
+    private static string $password;
+    private static int $port;
+    public static function loadSettings(string $database, string $host, string $username, string $password, int $port = 3306): void
+    {
+        self::$database = $database;
+        self::$hostname = $host;
+        self::$username = $username;
+        self::$password = $password;
+        self::$port = $port;
+    }
+
+    public function settingsAreLoaded(): bool
+    {
+        return isset(self::$hostname);
+    }
+
+    private function closeDatabaseConnection(): void
+    {
         if ($this->connection instanceof mysqli) {
             $this->connection->close();
         }
     }
 
-    public function testDatabaseConnection()
+    public function testDatabaseConnection(): void
     {
         if ($this->connection->connect_error) {
             throw new Exception('Connection error with database: ' . $this->connection->connect_error);
@@ -45,7 +72,7 @@ class Database
     }
 
     # function to query the articles table
-    public function queryConnection(string $sql, array $params = [], string $types = "")
+    public function queryConnection(string $sql, array $params = [], string $types = ""): mixed
     {
         try {
             $this->testDatabaseConnection();
@@ -58,14 +85,14 @@ class Database
 
             $prepared->close();
         } catch (Exception $error) {
-            throw new Exception('Execution of SQL statement failed: ' . $error->getMessage());
+            throw new Exception('Failed to query database ' . $error->getMessage());
             return;
         }
 
         return $result;
     }
 
-    public function queryConnectionUnsafe(string $sql)
+    public function queryConnectionUnsafe(string $sql): mixed
     {
         try {
             $this->testDatabaseConnection();
