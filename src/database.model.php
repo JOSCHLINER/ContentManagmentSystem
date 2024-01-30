@@ -7,7 +7,7 @@ use Exception;
 
 class Database
 {
-    public function __construct()
+    private function __construct()
     {
         if ($this->settingsAreLoaded()) {
             $this->connect();
@@ -16,7 +16,7 @@ class Database
         }
     }
 
-    # function for connecting to the database
+    // function for connecting to the database
     private mysqli $connection;
     private function connect(): void
     {
@@ -28,16 +28,17 @@ class Database
         }
     }
 
-    # using Singleton pattern to always use the same class
+    // function for getting an instance of this class, by doing it this way we ensure that all code can access the same database connection effortless
     private static self $instance;
     public static function getInstance(): self
     {
-        if (!self::$instance) {
+        if (!isset(self::$instance)) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
+    // function for loading all the settings to connect to the database
     private static string $hostname;
     private static string $database;
     private static string $username;
@@ -52,11 +53,13 @@ class Database
         self::$port = $port;
     }
 
+    // function for checking if the settings have been loaded
     public function settingsAreLoaded(): bool
     {
         return isset(self::$hostname);
     }
 
+    // function for closing the database connection
     private function closeDatabaseConnection(): void
     {
         if ($this->connection instanceof mysqli) {
@@ -64,6 +67,7 @@ class Database
         }
     }
 
+    // function for testing the connection to the database
     public function testDatabaseConnection(): void
     {
         if ($this->connection->connect_error) {
@@ -71,8 +75,8 @@ class Database
         }
     }
 
-    # function to query the articles table
-    public function queryConnection(string $sql, array $params = [], string $types = ""): mixed
+    // function for querying the database with user provided inputs
+    public function query(string $sql, array $params = [], string $types = ""): mixed
     {
         try {
             $this->testDatabaseConnection();
@@ -86,13 +90,14 @@ class Database
             $prepared->close();
         } catch (Exception $error) {
             throw new Exception('Failed to query database ' . $error->getMessage());
-            return;
+            return null;
         }
 
         return $result;
     }
 
-    public function queryConnectionUnsafe(string $sql): mixed
+    // function for unsafe querying of the database
+    public function queryUnsafe(string $sql): mixed
     {
         try {
             $this->testDatabaseConnection();
