@@ -2,14 +2,17 @@
 
 class Settings {
 
-    static array $settings;
+    protected static array $settings;
+    protected string $settingsFile;
     public function __construct()
     {
+        $this->settingsFile = 'settings.ini';
         $this->loadSettingsFile();
     }
 
-    private function loadSettingsFile():bool {
-        self::$settings = parse_ini_file('settings.ini', false);
+    // function for loading in the setting file
+    protected function loadSettingsFile():bool {
+        self::$settings = parse_ini_file($this->settingsFile, true);
         return true;
     }
 
