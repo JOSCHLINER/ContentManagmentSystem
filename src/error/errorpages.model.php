@@ -1,5 +1,7 @@
 <?php 
 
+namespace Controller\Error\Pages;
+
 # class returning HTTP response code following https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 readonly class ErrorPages {
 

@@ -1,6 +1,7 @@
 <?php
 
 use Controller\Users\UserPrivileges;
+use Controller\Error\Pages\ErrorPages;
 
 include 'settings.controller.php';
 
@@ -15,9 +16,8 @@ class AdminSettings extends Settings {
     public static function createInstance(): null | self {
         if (UserPrivileges::isAdministrator()) {
             return new self ();
-            echo 'authorized';
         }
-        echo 'not the proper authorization';
+        ErrorPages::displayForbidden();        
         return null;
     }
 
