@@ -1,0 +1,127 @@
+/* VARIABLES */
+:root {
+    /* COLORS */
+    --path-color: rgba(238, 238, 238, 0.864);
+    --sidebar-color: inherit;
+    --main-color: lightgrey;
+    --line-color: lightgrey;
+    --label-color: rgb(194, 194, 194);
+    --sidebar-active: lightblue;
+
+    /* FONT COLORS */
+    --heading-font-color: blue;
+    --active-heading-font-color: white;
+
+
+    /* OTHER */
+    --box-shadows: 3px 2px rgb(236, 233, 233);
+    --border-radius: 5px;
+}
+
+/* GENERAL */
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* CONTENT CONTAINER */
+.container {
+    display: flex;
+    width: 95%;
+    margin: 1rem auto;
+}
+
+
+/* SIDEBAR */
+.sidebar {
+    height: fit-content;
+    min-width: 8rem;
+
+    border: 1px solid var(--line-color);
+    background-color: var(--sidebar-color);
+    box-shadow: var(--box-shadows);
+
+    border-radius: var(--border-radius);
+}
+
+.sidebar-list-label {
+    display: block;
+    padding-left: 0.6rem;
+
+    border-bottom: 2px solid var(--line-color);;
+
+    font-size: 0.75em;
+}
+
+.sidebar #navigation-list {
+    list-style: none;
+}
+
+.sidebar .navigation-item {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--line-color);
+
+    color: var(--heading-font-color);
+}
+
+.sidebar .navigation-item a {
+    text-decoration: none;
+    width: 100%;
+}
+
+.sidebar .navigation-item:last-child {
+    border-bottom: none;
+}
+
+.sidebar .navigation-item:hover {
+    background-color: var(--sidebar-active);
+    
+    font-family: var(--active-heading-font-color);
+}
+
+.sidebar .navigation-item:active {
+    transform: translateY(2px) scale(0.97);
+    transition: 0.2s;
+}
+
+
+
+/* MAIN SETTINGS FIELD */
+.settings {
+    flex: 0.9;
+    margin: 0px auto;
+}
+
+.settings-path {
+    background-color: var(--path-color);
+    height: fit-content;
+    padding: 0.25rem 0px 0.25rem 1rem;
+
+    border-radius: var(--border-radius);
+    border: 1px solid var(--line-color);
+    box-shadow: var(--box-shadows);
+}
+
+.dashboard-container {
+    margin-top: 1rem;
+
+    border: 1px solid var(--line-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadows);
+}
+
+.dashboard-name {
+    display: block;
+    padding: 0.25rem;
+    padding-left: 0.8rem;
+
+    background: rgb(244,244,244);
+    background: linear-gradient(180deg, rgba(244,244,244,1) 32%, rgb(210, 210, 215) 82%);
+}
+
+.dashboard {
+    margin: 1rem;
+    padding: 1.5rem;
+
+    background-color: var(--main-color);
+}
