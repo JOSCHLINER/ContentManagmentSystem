@@ -1,5 +1,6 @@
 
 # ignore the www/html directory which is created in bash script
 www/html/
+src/admin/admin.html
 WSL*
 .vscode
