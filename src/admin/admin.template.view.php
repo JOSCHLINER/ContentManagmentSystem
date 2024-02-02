@@ -11,6 +11,8 @@ use Controller\Users\UserPrivileges;
 class AdminPagesTemplate
 {
 
+    protected string $settingsName = '';
+    protected string $settingsPath = '';
     private function __construct()
     {
     }
@@ -19,7 +21,7 @@ class AdminPagesTemplate
     public static function createInstance(): null | self
     {
         if (UserPrivileges::isAdministrator()) {
-            return new self();
+            return new static();
         }
         ErrorPages::displayForbidden();
         return null;
@@ -33,7 +35,7 @@ class AdminPagesTemplate
         <html lang="en">
 
         <head>
-            <link rel="stylesheet" href="style.admin.css">
+            <link rel="stylesheet" href="../style.admin.css">
 
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,13 +81,24 @@ class AdminPagesTemplate
     // function for giving the path to said setting
     protected function renderSettingsPath(): string
     {
-        return '';
+        $renderedPath = '';
+
+        $sublinks = explode('/', $this->settingsPath);
+        $linkDepth = count($sublinks) - 1;
+
+        foreach ($sublinks as $sublink) {
+            $renderedPath .= '<a href="' . str_repeat('../', $linkDepth) . "$sublink\">$sublink</a> / ";
+            $linkDepth--; 
+
+        }
+
+        return substr($renderedPath, 0, -2);
     }
 
     // function for showing the name of the settings site you are on
     protected function renderSettingsName(): string
     {
-        return '';
+        return $this->settingsName;
     }
 
     // function for rendering all of the settings on each page; should be overwritten by new function in extended class 
@@ -94,6 +107,23 @@ class AdminPagesTemplate
         return '';
     }
 }
+
+
+/* This class should be used in the following way:
+
+class example extends AdminPagesTemplate {
+    protected function __construct()
+    {
+        $this->settingsPath = 'myPath';
+        $this->settingsName = 'myName';
+    }
+
+    protected function renderSettingsDashboard(): string
+    {
+        # A random function
+        return '';
+    }
+}*/
 
 // $_SESSION['userPrivileges'] = 'a';
 // $page = AdminPages::createInstance();
