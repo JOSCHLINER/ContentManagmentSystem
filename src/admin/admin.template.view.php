@@ -10,7 +10,7 @@ use Controller\Users\UserPrivileges;
 
 class AdminPagesTemplate
 {
-
+    // variables used to render the page
     protected string $settingsName = '';
     protected string $settingsPath = '';
     private function __construct()
@@ -78,7 +78,7 @@ class AdminPagesTemplate
 
     }
 
-    // function for giving the path to said setting
+    // function for creating the path to said setting
     protected function renderSettingsPath(): string
     {
         $renderedPath = '';
@@ -124,7 +124,3 @@ class example extends AdminPagesTemplate {
         return '';
     }
 }*/
-
-// $_SESSION['userPrivileges'] = 'a';
-// $page = AdminPages::createInstance();
-// $page->renderPage();
