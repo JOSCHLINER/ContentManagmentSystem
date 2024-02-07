@@ -35,7 +35,7 @@ class AdminPagesTemplate
         <html lang="en">
 
         <head>
-            <link rel="stylesheet" href="../style.admin.css">
+            <link rel="stylesheet" href="./style.admin.css">
 
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,7 +49,7 @@ class AdminPagesTemplate
                     <ul id="navigation-list">
                         <li class="navigation-item"><a href="">Home</a></li>
                         <li class="navigation-item"><a href="">Pages</a></li>
-                        <li class="navigation-item"><a href="">Settings</a></li>
+                        <li class="navigation-item"><a href="/admin/settings">Settings</a></li>
                     </ul>
                 </nav>
 
