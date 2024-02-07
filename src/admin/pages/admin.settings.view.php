@@ -1,11 +1,10 @@
 <?php
-include __DIR__ . '/../admin.template.view.php';
 include __DIR__ . '/../../configuration/settings.admin.controller.php';
 
 use View\Admin\AdminPagesTemplate;
 use Controller\Configuration\Settings\AdminSettings;
 
-class AdminPagesSettingsView extends AdminPagesTemplate
+class AdminPagesSettings extends AdminPagesTemplate
 {
     protected function __construct()
     {
@@ -31,6 +30,6 @@ class AdminPagesSettingsView extends AdminPagesTemplate
 
 }
 
-$_SESSION['userPrivileges'] = 'a';
-$page = AdminPagesSettingsView::createInstance();
-$page->renderPage();
+// $_SESSION['userPrivileges'] = 'a';
+// $page = AdminPagesSettings::createInstance();
+// $page->renderPage();
