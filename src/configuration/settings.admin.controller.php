@@ -2,11 +2,10 @@
 
 namespace Controller\Configuration\Settings;
 
+include 'settings.controller.php';
 use Controller\Configuration\Settings\Settings;
 use Controller\Users\UserPrivileges;
 use Controller\Error\Pages\ErrorPages;
-
-include 'settings.controller.php';
 
 class AdminSettings extends Settings
 {
