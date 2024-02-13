@@ -2,11 +2,10 @@
 
 namespace View\Admin;
 
-require __DIR__ . '/../error/errorpages.model.php';
-require __DIR__ . '/../users/usersauthenticate.controller.php';
 
 use Controller\Error\Pages\ErrorPages;
 use Controller\Users\UserPrivileges;
+use Exception;
 
 class AdminPagesTemplate
 {
@@ -30,52 +29,12 @@ class AdminPagesTemplate
     // function for rendering any adminpage
     public function renderPage()
     {
-?>
-        <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-            <link rel="stylesheet" href="./style.admin.css">
-
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
-        </head>
-
-        <body>
-            <div class="container">
-                <nav class="sidebar">
-                    <label for="navigation-list" class="sidebar-list-label">Main</label>
-                    <ul id="navigation-list">
-                        <li class="navigation-item"><a href="">Home</a></li>
-                        <li class="navigation-item"><a href="">Pages</a></li>
-                        <li class="navigation-item"><a href="/admin/settings">Settings</a></li>
-                    </ul>
-                </nav>
-
-                <div class="settings">
-                    <nav class="settings-path">
-                        <!-- Path to setting -->
-                        <?php echo $this->renderSettingsPath(); ?>
-                    </nav>
-                    <div class="dashboard-container">
-                        <span class="dashboard-name">
-                            <!-- Settings name -->
-                            <?php echo $this->renderSettingsName(); ?>
-                        </span>
-                        <main class="dashboard">
-                            <!-- here are the settings placed -->
-                            <?php echo $this->renderSettingsDashboard(); ?>
-                        </main>
-                    </div>
-                </div>
-            </div>
-        </body>
-
-        </html>
-
-<?php
-
+        // load file with the template for the admin page with he right functions calls inside
+        try {
+            include __DIR__ . '/admin.template.php';
+        } catch (Exception $error) {
+            
+        }
     }
 
     // function for creating the path to said setting
@@ -83,13 +42,12 @@ class AdminPagesTemplate
     {
         $renderedPath = '';
 
-        $sublinks = explode('/', $this->settingsPath);
-        $linkDepth = count($sublinks) - 1;
+        $subLinks = explode('/', $this->settingsPath);
+        $linkDepth = count($subLinks) - 1;
 
-        foreach ($sublinks as $sublink) {
-            $renderedPath .= '<a href="' . str_repeat('../', $linkDepth) . "$sublink\">$sublink</a> / ";
-            $linkDepth--; 
-
+        foreach ($subLinks as $subLink) {
+            $renderedPath .= '<a href="' . str_repeat('../', $linkDepth) . "$subLink\">$subLink</a> / ";
+            $linkDepth--;
         }
 
         return substr($renderedPath, 0, -2);
@@ -105,6 +63,14 @@ class AdminPagesTemplate
     protected function renderSettingsDashboard(): string
     {
         return '';
+    }
+
+    public function handleGetRequest()
+    {
+    }
+
+    public function handlePostRequest()
+    {
     }
 }
 
@@ -124,3 +90,7 @@ class example extends AdminPagesTemplate {
         return '';
     }
 }*/
+
+// $_SESSION['userPrivileges'] = 'a';
+// $page = AdminPagesTemplate::createInstance();
+// $page->renderPage();
