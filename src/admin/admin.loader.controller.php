@@ -26,8 +26,8 @@ class AdminPagesLoader
      */
     private function fileLoader(string $className, bool $param = null): ?callable
     {
-
-        $filepath = __DIR__ . '/pages/admin.' . strtolower(substr($className, 10)) . '.view.php';
+        $modifiedClassName = strtolower(preg_replace('/([A-Z])/', '.$1', substr($className, 10)));
+        $filepath = __DIR__ . '/pages/admin' . $modifiedClassName . '.view.php';
         if (file_exists($filepath)) {
             include $filepath;
         }
