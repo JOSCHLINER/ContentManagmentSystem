@@ -1,10 +1,10 @@
 <?php
 namespace Controller\Users;
-include 'user.controller.php';
+
 
 use Controller\Users\Users;
 
-class UserPrivileges extends Users
+class Authenticate extends Users
 {
     public static function privilegesAreSet()
     {

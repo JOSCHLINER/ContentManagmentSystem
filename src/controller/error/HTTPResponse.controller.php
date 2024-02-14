@@ -1,12 +1,12 @@
 <?php 
 
-namespace Controller\Error\Pages;
+namespace Controller\Error;
 
 # class returning HTTP response code following https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-readonly class ErrorPages {
+readonly class HTTPResponse {
 
     private static function getHttpErrorPage(int $header) {
-        return "status/$header.html";
+        return __DIR__ . "/../../static/responseStatusCodes/$header.html";
     }
 
     private static function redirectToPage(string $link, int $httpStatus = 200) {

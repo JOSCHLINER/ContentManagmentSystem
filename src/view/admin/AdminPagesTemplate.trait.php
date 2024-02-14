@@ -1,10 +1,10 @@
 <?php
 
-namespace View\Admin;
+namespace Trait\View\Admin;
 
 
-use Controller\Error\Pages\ErrorPages;
-use Controller\Users\UserPrivileges;
+use Controller\Error\HTTPResponse;
+use Controller\Users\Authenticate;
 use Exception;
 
 /**
@@ -34,10 +34,10 @@ class AdminPagesTemplate
      */
     public static function createInstance(): null | self
     {
-        if (UserPrivileges::isAdministrator()) {
+        if (Authenticate::isAdministrator()) {
             return new static();
         }
-        ErrorPages::displayForbidden();
+        HTTPResponse::displayForbidden();
         return null;
     }
 
@@ -48,7 +48,7 @@ class AdminPagesTemplate
     {
         // load file with the template for the admin page with he right functions calls inside
         try {
-            include __DIR__ . '/admin.template.php';
+            include __DIR__ . '/AdminPageTemplate.php';
         } catch (Exception $error) {
         }
     }

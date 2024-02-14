@@ -1,11 +1,10 @@
 <?php
 
-namespace Controller\Configuration\Settings;
+namespace Controller\S\Settings;
 
-include 'settings.controller.php';
-use Controller\Configuration\Settings\Settings;
-use Controller\Users\UserPrivileges;
-use Controller\Error\Pages\ErrorPages;
+use Controller\Settings\Settings;
+use Controller\Users\Authenticate;
+use Controller\Error\HTTPResponse;
 
 class AdminSettings extends Settings
 {
@@ -18,10 +17,10 @@ class AdminSettings extends Settings
     // function for creating this class; this class can only be created if the user has the proper authorization
     public static function createInstance(): null | self
     {
-        if (UserPrivileges::isAdministrator()) {
+        if (Authenticate::isAdministrator()) {
             return new self();
         }
-        ErrorPages::displayForbidden();
+        HTTPResponse::displayForbidden();
         return null;
     }
 

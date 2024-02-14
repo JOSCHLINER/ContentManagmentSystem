@@ -1,5 +1,5 @@
 <?php
-namespace Controller\Configuration\Settings;
+namespace Controller\Settings;
 
 class Settings {
 
