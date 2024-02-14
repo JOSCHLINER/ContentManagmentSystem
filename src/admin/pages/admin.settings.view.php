@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../../configuration/settings.admin.controller.php';
+include __DIR__ . '/../../configuration/admin.settings.controller.php';
 
 use View\Admin\AdminPagesTemplate;
 use Controller\Configuration\Settings\AdminSettings;
