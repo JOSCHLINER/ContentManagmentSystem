@@ -31,14 +31,14 @@ class Autoloader
 
     private static function loader(string $className): bool
     {
-        $classParts = explode('\\', $className);
+                $classParts = explode('\\', $className);
 
-        $filename = end($classParts) . '.' . lcfirst($classParts[0]) . '.php';
-        $directoryPath = implode('/', array_map('lcfirst', array_slice($classParts, 1, -1)));
+        $filename = array_pop($classParts) . '.' . lcfirst($classParts[0]) . '.php';
+        $directoryPath = implode('/', array_map('lcfirst', $classParts));
 
         $fullPath = __DIR__ . '/../' . $directoryPath . '/' . $filename;
 
-        // check if the file exists
+                // check if the file exists
         if (file_exists($fullPath)) {
             require $fullPath;
             return true;
