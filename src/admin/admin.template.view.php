@@ -7,16 +7,31 @@ use Controller\Error\Pages\ErrorPages;
 use Controller\Users\UserPrivileges;
 use Exception;
 
+/**
+ * Class working as template for all admin pages.
+ * An instance of this class can only be created through the static createInstance function of this class.
+ */
 class AdminPagesTemplate
 {
-    // variables used to render the page
+    /** 
+     * Variable for the name of the page.
+     */
     protected string $settingsName = '';
+
+    /**
+     * Variable for the path to the site.
+     * The names of the pages should be separated by a single space.
+     */
     protected string $settingsPath = '';
     private function __construct()
     {
     }
 
-    // function for creating this class; this class can only be created if the user has the proper authorization
+    /**and the 
+     * Function for creating the AdminPagesTemplate class.
+     * 
+     * @return null|AdminPagesTemplate Class will only be created if the user has the proper authorization.
+     */
     public static function createInstance(): null | self
     {
         if (UserPrivileges::isAdministrator()) {
@@ -26,18 +41,23 @@ class AdminPagesTemplate
         return null;
     }
 
-    // function for rendering any adminpage
+    /**
+     * Function for rendering admin pages.
+     */
     public function renderPage()
     {
         // load file with the template for the admin page with he right functions calls inside
         try {
             include __DIR__ . '/admin.template.php';
         } catch (Exception $error) {
-            
         }
     }
 
-    // function for creating the path to said setting
+    /**
+     * Function for creating the path set for the site.
+     * 
+     * @return string The rendered html code for the path.
+     */
     protected function renderSettingsPath(): string
     {
         $renderedPath = '';
@@ -45,6 +65,7 @@ class AdminPagesTemplate
         $subLinks = explode('/', $this->settingsPath);
         $linkDepth = count($subLinks) - 1;
 
+        // creating relative links to parent links
         foreach ($subLinks as $subLink) {
             $renderedPath .= '<a href="' . str_repeat('../', $linkDepth) . "$subLink\">$subLink</a> / ";
             $linkDepth--;
@@ -53,44 +74,35 @@ class AdminPagesTemplate
         return substr($renderedPath, 0, -2);
     }
 
-    // function for showing the name of the settings site you are on
+    /**
+     * Function for rendering the name of the current page.
+     */
     protected function renderSettingsName(): string
     {
         return $this->settingsName;
     }
 
-    // function for rendering all of the settings on each page; should be overwritten by new function in extended class 
+    /**
+     * Function for rendering the custom content on each page.
+     * 
+     * This function has to be overwritten in children of the AdminPagesTemplate class.
+     */
     protected function renderSettingsDashboard(): string
     {
         return '';
     }
 
+    /**
+     * Handles potential GET request for the given site.
+     */
     public function handleGetRequest()
     {
     }
 
+    /**
+     * Handel potential POST requests for the given site.
+     */
     public function handlePostRequest()
     {
     }
 }
-
-
-/* This class should be used in the following way:
-
-class example extends AdminPagesTemplate {
-    protected function __construct()
-    {
-        $this->settingsPath = 'myPath';
-        $this->settingsName = 'myName';
-    }
-
-    protected function renderSettingsDashboard(): string
-    {
-        # A random function
-        return '';
-    }
-}*/
-
-// $_SESSION['userPrivileges'] = 'a';
-// $page = AdminPagesTemplate::createInstance();
-// $page->renderPage();
