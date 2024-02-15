@@ -1,8 +1,10 @@
 <?php
-include __DIR__ . '/../../configuration/admin.settings.controller.php';
 
-use View\Admin\AdminPagesTemplate;
-use Controller\Configuration\Settings\AdminSettings;
+namespace View\Admin\Pages;
+
+use Trait\View\Admin\AdminPagesTemplate;
+use Controller\Settings\AdminSettings;
+
 
 class AdminPagesSettings extends AdminPagesTemplate
 {

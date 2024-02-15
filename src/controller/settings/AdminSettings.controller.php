@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller\S\Settings;
+namespace Controller\Settings;
 
 use Controller\Settings\Settings;
 use Controller\Users\Authenticate;

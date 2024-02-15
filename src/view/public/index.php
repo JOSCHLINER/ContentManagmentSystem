@@ -1,6 +1,6 @@
 <?php
 include __DIR__ . '/../../model/Autoloader.controller.php';
-Autoloader::register();
+Model\Autoloader::register();
 
 ?>
 

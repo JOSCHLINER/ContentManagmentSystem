@@ -1,6 +1,8 @@
 <?php
 
-use View\Admin\AdminPagesTemplate;
+namespace View\Admin\Pages;
+
+use Trait\View\Admin\AdminPagesTemplate;
 
 class AdminPagesHome extends AdminPagesTemplate
 {
