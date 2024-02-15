@@ -5,6 +5,7 @@ namespace Controller\Settings;
 use Controller\Settings\Settings;
 use Controller\Users\Authenticate;
 use Controller\Error\HTTPResponse;
+use Exception;
 
 class AdminSettings extends Settings
 {
@@ -25,10 +26,12 @@ class AdminSettings extends Settings
     }
 
     // function for editing the settings in the configuration file
-    public function editSettings(mixed $section, mixed $changeKey, mixed $changeValue): void
+    public function editSettingsUnsaved(mixed $section, mixed $changeKey, mixed $changeValue): void
     {
         self::$settings[$section][$changeKey] = $changeValue;
+    }
 
+    public function writeSettings(): bool {
         $newIniContents = '';
         foreach (self::$settings as $section => $section_content) {
             $newIniContents .= "[$section]" . PHP_EOL;
@@ -37,10 +40,18 @@ class AdminSettings extends Settings
             }
             $newIniContents .= PHP_EOL;
         }
-        // these changes should be logged
-        file_put_contents(__DIR__ . '/' . $this->settingsFile, $newIniContents);
-        $this->loadSettingsFile();
+
+        try {
+            // these changes should be logged
+            file_put_contents(__DIR__ . '/' . $this->settingsFile, $newIniContents);
+            $this->loadSettingsFile();
+        } catch (Exception $error) {
+            return false;
+        }
+
+        return true;
     }
+
 
     public function retrieveSettings(): array
     {

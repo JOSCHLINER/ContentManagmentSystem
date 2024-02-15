@@ -95,14 +95,16 @@ class AdminPagesTemplate
     /**
      * Handles potential GET request for the given site.
      */
-    public function handleGetRequest()
+    public function handleGetRequest(array $GETRequest): bool
     {
+        return true;
     }
 
     /**
      * Handel potential POST requests for the given site.
      */
-    public function handlePostRequest()
+    public function handlePostRequest(array $POSTRequest): bool
     {
+        return true;
     }
 }

@@ -21,6 +21,7 @@
                 <li class="navigation-item"><a href="/admin/home">Home</a></li>
                 <li class="navigation-item"><a href="">Pages</a></li>
                 <li class="navigation-item"><a href="/admin/settings">Settings</a></li>
+                <li class="navigation-item"><a href="/admin/settings/edit">Edit Settings</a></li>
             </ul>
         </nav>
 

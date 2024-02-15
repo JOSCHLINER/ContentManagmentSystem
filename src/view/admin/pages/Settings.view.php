@@ -19,17 +19,40 @@ class AdminPagesSettings extends AdminPagesTemplate
         $loadedSettings = AdminSettings::createInstance();
         $settings = $loadedSettings->retrieveSettings();
 
-        foreach ($settings as $section => $sectionContent) {
-            echo "<span>[$section]</span> <br>";
-            foreach ($sectionContent as $key => $value) {
-                echo "<span>$key : $value</span> <br>";
-            }
+?>
+        <table class="blocktable">
+            <tr>
+                <th>Sectionname</th>
+                <th>Settingsname</th>
+                <th>Settingsvalue</th>
+            </tr>
 
-        }
+            <?php foreach ($settings as $section => $sectionContent) { ?>
+
+                <tr>
+                    <td><?= $section ?></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <?php foreach ($sectionContent as $key => $value) { ?>
+                    <tr>
+                        <td></td>
+                        <td><?= $key ?></td>
+                        <td><?= $value ?></td>
+                    </tr>
+
+            <?php
+                }
+            }
+            ?>
+
+        </table>
+
+<?php
 
         return '';
     }
-
 }
 
 // $_SESSION['userPrivileges'] = 'a';

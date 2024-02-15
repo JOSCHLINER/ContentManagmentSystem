@@ -7,7 +7,7 @@ class Settings {
     protected string $settingsFile;
     public function __construct()
     {
-        $this->settingsFile = 'settings.ini';
+        $this->settingsFile = '../../configuration/settings.ini';
         $this->loadSettingsFile();
     }
 

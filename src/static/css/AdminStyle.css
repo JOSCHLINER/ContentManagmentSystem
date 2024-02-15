@@ -48,7 +48,8 @@
     display: block;
     padding-left: 0.6rem;
 
-    border-bottom: 2px solid var(--line-color);;
+    border-bottom: 2px solid var(--line-color);
+    ;
 
     font-size: 0.75em;
 }
@@ -75,7 +76,7 @@
 
 .sidebar .navigation-item:hover {
     background-color: var(--sidebar-active);
-    
+
     font-family: var(--active-heading-font-color);
 }
 
@@ -115,8 +116,8 @@
     padding: 0.25rem;
     padding-left: 0.8rem;
 
-    background: rgb(244,244,244);
-    background: linear-gradient(180deg, rgba(244,244,244,1) 32%, rgb(210, 210, 215) 82%);
+    background: rgb(244, 244, 244);
+    background: linear-gradient(180deg, rgba(244, 244, 244, 1) 32%, rgb(210, 210, 215) 82%);
 }
 
 .dashboard {
@@ -124,4 +125,26 @@
     padding: 1.5rem;
 
     background-color: var(--main-color);
+}
+
+/* CUSTOM CLASSES FOR DIFFERENT SITES */
+
+/*
+ * class for table elements
+ * creates a table with borders around the edges.
+ */
+.blocktable {
+    display: flex;
+    width: fit-content;
+    border-collapse: collapse;
+}
+
+.blocktable tr,
+.blocktable td,
+.blocktable th {
+    text-align: left;
+
+    border: 1px solid black;
+    padding: 0.5ch;
+    padding-right: 3ch;
 }
