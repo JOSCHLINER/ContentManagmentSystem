@@ -1,18 +1,20 @@
 <?php
 
-namespace Controller\Admin;
+namespace Model;
+
+use Autoloader;
 
 /**
  * Class for loading and constructing the appropriate class for the admin pages, given the request URI.
  */
-class AdminPagesLoader
+class AdminPagesAutoloader
 {
 
-    private string $requestURI;
-    public function __construct(string $requestURI)
+    private static string $requestURI;
+    public static function register($requestURI)
     {
-        $this->requestURI = $this->removeGetRequest($requestURI);
-        spl_autoload_register(array($this, 'fileLoader'));
+        self::$requestURI = self::removeGetRequest($requestURI);
+        spl_autoload_register([__CLASS__, 'fileLoader']);
     }
 
 
@@ -24,15 +26,23 @@ class AdminPagesLoader
      * Given a request the appropriate file name is reconstructed, if it exist it is included.
      * @link https://www.php.net/manual/en/function.spl-autoload.php
      */
-    private function fileLoader(string $className, bool $param = null): ?callable
+    public static function fileLoader(string $className, bool $param = null): bool
     {
-        $modifiedClassName = strtolower(preg_replace('/([A-Z])/', '.$1', substr($className, 10)));
-        $filepath = __DIR__ . '/pages/admin' . $modifiedClassName . '.view.php';
-        if (file_exists($filepath)) {
-            include $filepath;
+        $classParts = explode('\\', $className);
+        if (sizeof($classParts) < 2) {
+            return false;
         }
 
-        return null;
+        $filename = substr(array_pop($classParts), 10) . '.' . lcfirst($classParts[0]) . '.php';
+        $directoryPath = implode('/', array_map('lcfirst', $classParts));
+        $fullPath = __DIR__ . '/../' . $directoryPath . '/' . $filename;
+
+        if (file_exists($fullPath)) {
+            require $fullPath;
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -41,10 +51,10 @@ class AdminPagesLoader
      * 
      * @return string It is not ensured that the returned class exists.
      */
-    public function extractClassName(): string
+    public static function extractClassName(): string
     {
-        $headerParts = explode('/', $this->requestURI);
-        return 'AdminPages' . implode('', array_map('ucfirst', array_slice($headerParts, 2)));
+        $headerParts = explode('/', self::$requestURI);
+        return 'View\Admin\Pages\AdminPages' . implode('', array_map('ucfirst', array_slice($headerParts, 2)));
     }
 
 
@@ -54,9 +64,9 @@ class AdminPagesLoader
      * @param string $header Header with or without GET request.
      * @return string Header without the GET request.
      */
-    private function removeGetRequest(string $header): string
+    private static function removeGetRequest(string $header): string
     {
-        $getRequestStart = $this->getGetRequestStart($header);
+        $getRequestStart = self::getGetRequestStart($header);
         return substr($header, 0, $getRequestStart);
     }
 
@@ -67,7 +77,7 @@ class AdminPagesLoader
      * @return int Index of the start of the GET request.
      * If none is found, the last index of the array is returned.
      */
-    private function getGetRequestStart(string $header): int
+    private static function getGetRequestStart(string $header): int
     {
         $left = 0;
         $getRequestStart = $headerLength = strlen($header);

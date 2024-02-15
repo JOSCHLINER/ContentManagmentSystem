@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 /**
  * Autoloader Class
  * 
@@ -29,16 +31,19 @@ class Autoloader
         spl_autoload_register([__CLASS__, 'loader']);
     }
 
-    private static function loader(string $className): bool
+    public static function loader(string $className): bool
     {
-                $classParts = explode('\\', $className);
+        $classParts = explode('\\', $className);
+        if (sizeof($classParts) < 2) {
+            return false;
+        }
 
         $filename = array_pop($classParts) . '.' . lcfirst($classParts[0]) . '.php';
         $directoryPath = implode('/', array_map('lcfirst', $classParts));
 
         $fullPath = __DIR__ . '/../' . $directoryPath . '/' . $filename;
 
-                // check if the file exists
+        // check if the file exists
         if (file_exists($fullPath)) {
             require $fullPath;
             return true;
