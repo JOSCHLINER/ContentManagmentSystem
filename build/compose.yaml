@@ -9,9 +9,6 @@ services:
     environment:
       MYSQL_USER: admin
       MYSQL_ROOT_PASSWORD: root
-    # port open on localhost:3306 for external connections
-    ports:
-      - 3306:3306
     volumes_from:
       - mysql-data
 
@@ -35,6 +32,8 @@ services:
       - php
     volumes_from:
       - app-data
+    depends_on:
+      - app-data
 
   # php container to manage php requests
   php:
@@ -47,6 +46,8 @@ services:
       - mysql  
     volumes_from:
       - app-data
+    depends_on:
+      - app-data
 
   # container for holding the scripts for the app 
   app-data:
@@ -55,4 +56,5 @@ services:
     restart: always
     volumes:
       - ../src/:/var/www/html/
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     command: "true"
