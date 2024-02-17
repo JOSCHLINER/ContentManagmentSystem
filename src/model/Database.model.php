@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\Database;
+namespace Model;
 
 use mysqli;
 use Exception;
@@ -83,7 +83,13 @@ class Database
 
             $prepared = ($this->connection)->prepare($sql);
             $prepared->bind_param($types, ...$params);
-            $prepared->execute();
+
+            if (!$prepared->execute())
+            {
+                $error = $prepared->error;
+                $errornumber = $prepared->errno;
+                throw new Exception('Prepare Statement Failed' . $error . ', ' . $errornumber);
+            }
 
             $result = $prepared->get_result();
 
