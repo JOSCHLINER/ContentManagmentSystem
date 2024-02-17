@@ -27,8 +27,9 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             ob_end_clean();
 
             // redirect user to the the view pages site
-            header('Location: ' . $_SERVER['SERVER_NAME'] . '/admin/pages/view', true, 404);  # should add an errorcodes
-            exit;
+            http_response_code(404);
+            header('Location: ' . $_SERVER['SERVER_NAME'] . '/admin/pages/view');
+            exit; # should add an errorcodes for user to see
         }
         return '<form method="POST"><input name="id" value="' . $this->page->pageId . '"><textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
     }
