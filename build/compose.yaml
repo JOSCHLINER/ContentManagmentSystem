@@ -16,7 +16,7 @@ services:
   # nginx container used as webserver
   nginx:
     container_name: nginx-container
-    build: ./nginx/
+    image: nginx:latest
     restart: always
     ports:
       - 80:80
