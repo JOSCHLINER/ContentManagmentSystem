@@ -64,7 +64,7 @@ class AdminPagesSettingsEdit extends AdminPagesTemplate
         return '';
     }
 
-    public function handlePostRequest(array $POSTRequest): bool
+    public function handlePostRequest(array &$POSTRequest): bool
     {
         // go over each settings section
         foreach ($POSTRequest as $section => $sectionContent) {

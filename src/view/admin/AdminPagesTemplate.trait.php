@@ -111,7 +111,7 @@ class AdminPagesTemplate
     /**
      * Handles potential GET request for the given site.
      */
-    public function handleGetRequest(array $GETRequest): bool
+    public function handleGetRequest(array &$GETRequest): bool
     {
         return true;
     }
@@ -119,7 +119,7 @@ class AdminPagesTemplate
     /**
      * Handel potential POST requests for the given site.
      */
-    public function handlePostRequest(array $POSTRequest): bool
+    public function handlePostRequest(array &$POSTRequest): bool
     {
         return true;
     }
