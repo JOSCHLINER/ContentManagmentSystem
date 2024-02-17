@@ -19,9 +19,10 @@ CREATE TABLE IF NOT EXISTS articles(
     FOREIGN KEY (author_id) REFERENCES users(user_id)
 );
 
--- Creating the user for the content managment system to use
-CREATE USER IF NOT EXISTS 'cmswebbpage'@'127.0.0.1'
+
+-- Creating the user for the content management system to use
+CREATE USER 'markdownwebpage'@'%'
 IDENTIFIED WITH authentication_plugin BY 'secure_password';
 
-GRANT INSERT, UPDATE, DELETE, SELECT ON contentmanagment.* TO 'cmswebbpage'@'127.0.0.1' WITH GRANT OPTION;
+GRANT INSERT, UPDATE, DELETE, SELECT ON contentmanagment.* TO 'markdownwebpage'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
