@@ -1,0 +1,1 @@
+This directory is for all external libraries. Each of these libraries should be given the namespace `Libraries` for it to work with the autoloader and should have a filename following the pattern `ClassName.libraries.php`.

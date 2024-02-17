@@ -1,6 +1,10 @@
 
 # ignore the www/html directory which is created in bash script
 www/html/
-src/admin/admin.html
+
+# igonre all external libaries
+src/libraries/*
+!src/libraries/*.md
+
 WSL*
 .vscode
