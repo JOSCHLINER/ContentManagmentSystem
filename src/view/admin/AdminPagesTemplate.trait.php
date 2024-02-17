@@ -10,6 +10,22 @@ use Exception;
 /**
  * Class working as template for all admin pages.
  * An instance of this class can only be created through the static createInstance function of this class.
+ * Example of a child:
+ * ```
+ * class AdminPagesSOMENAME extends AdminPagesTemplate
+ * {
+ *     protected string $settingsName = 'some name';
+ *    protected string $settingsPath = 'some path';
+ *    protected function __construct()
+ *    {
+ *   }
+ *
+ *    protected function renderSettingsDashboard(): string
+ *    {
+ *        return '';
+ *    }
+ *}
+ * ```
  */
 class AdminPagesTemplate
 {
@@ -27,7 +43,7 @@ class AdminPagesTemplate
     {
     }
 
-    /**and the 
+    /**
      * Function for creating the AdminPagesTemplate class.
      * 
      * @return null|AdminPagesTemplate Class will only be created if the user has the proper authorization.
