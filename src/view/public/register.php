@@ -1,13 +1,12 @@
 <?
-// load and register the Autoloader
-include __DIR__ . '/../../model/Autoloader.model.php';
-Model\Autoloader::register();
+// initialize necessary services
+require __DIR__ . '/../../model/Includes.model.php';
+Model\Includes::initialize();
 
 
 use Controller\Error\HTTPResponse;
 use Controller\Users\Register;
 use Controller\Settings\Settings;
-use Controller\Users\UsersHandler;
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     HTTPResponse::displayForbidden();

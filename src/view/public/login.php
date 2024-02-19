@@ -1,7 +1,7 @@
 <?
-// load and register the Autoloader
-include __DIR__ . '/../../model/Autoloader.model.php';
-Model\Autoloader::register();
+// initialize necessary services
+require __DIR__ . '/../../model/Includes.model.php';
+Model\Includes::initialize();
 
 
 use Controller\Error\HTTPResponse;
