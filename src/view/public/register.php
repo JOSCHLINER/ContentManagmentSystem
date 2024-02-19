@@ -20,7 +20,7 @@ $settings->loadDatabase();
 // try to create user
 try {
     $handler = new Register();
-    $user = $handler->register($_POST);
+    $username = $handler->register($_POST);
 } catch (Error $error) {
     // catch any errors created from users input
 
@@ -31,8 +31,6 @@ try {
     exit($error->getMessage());
 }
 
-echo 'User created successfully';
-# should log in user too
-
-# redirect doesn't work for now because of the echo statment before here
-header('Location: index.php');
+// redirecting user to the login page
+// easier to let user login that it is to login the user directly
+header('Location: index.php'); # should have some kind of message that user was created

@@ -4,8 +4,6 @@ namespace Controller\Users;
 
 use Error;
 use Model\Database;
-use Model\User;
-use Controller\Users\UsersHandler;
 
 /**
  * Class to register users.
@@ -20,9 +18,9 @@ class Register
     /**
      * Function to create a new user.
      * 
-     * @return int Returns the newly created user.
+     * @return string Returns the username of the newly created user.
      */
-    public function register(&$PostRequest): User|null
+    public function register(&$PostRequest): string|null
     {
         // check if all required parameters are set and correct
         $this->PostRequest = $PostRequest;
@@ -47,7 +45,7 @@ class Register
         $username = $this->PostRequest['username'];
         unset($this->PostRequest);
 
-        return UsersHandler::getUser($username);
+        return $username;
     }
 
     /**
