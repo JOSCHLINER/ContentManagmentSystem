@@ -22,7 +22,7 @@ try {
     $user = $handler->login($_POST);
 } catch (Error $error) {
     // catch any errors created from users input
-    // should display them in some better way.
+    # should display them in some better way.
 
     exit($error->getMessage());
 } catch (Exception $error) {
@@ -30,6 +30,9 @@ try {
 
     exit($error->getMessage());
 }
+
+// store user data in session
+$_SESSION['user'] = serialize($user);
 
 // redirect user to starting page
 header('Location: index.php'); # should display to user that they are successfully logged in
