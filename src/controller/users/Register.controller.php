@@ -66,7 +66,7 @@ class Register
         }
 
         // check if username is not to long
-        if (sizeof($this->PostRequest['username']) > 64) {
+        if (strlen($this->PostRequest['username']) > 64) {
             throw new Error('The maximum length of a username is 64 letters.');
             return false;
         }
