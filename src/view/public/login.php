@@ -31,7 +31,5 @@ try {
     exit($error->getMessage());
 }
 
-echo 'Logged in successfully';
-
-# redirect doesn't work for now because of the echo statement before here
-header('Location: index.php');
+// redirect user to starting page
+header('Location: index.php'); # should display to user that they are successfully logged in
