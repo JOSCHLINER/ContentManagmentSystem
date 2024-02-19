@@ -6,6 +6,9 @@ use Model\Database;
 use Model\User;
 use Error;
 
+/**
+ * Class to handle the User Model.
+ */
 class UsersHandler
 {
 
@@ -33,6 +36,7 @@ class UsersHandler
         $user->userId = $userData['user_id'];
         $user->authorization = $userData['privileges'];
         $user->email = $userData['email'];
+        $user->password = $userData['password'];
 
         return $user;
     }

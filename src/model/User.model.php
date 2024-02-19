@@ -8,4 +8,9 @@ class User
     public int $userId;
     public string $authorization;
     public string $email;
+
+    /**
+     * Users hashed password, is only stored for login purposes.
+     */
+    public string $password;
 }
