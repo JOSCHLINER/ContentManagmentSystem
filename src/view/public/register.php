@@ -23,6 +23,7 @@ try {
 } catch (Error $error) {
     // catch any errors created from users input
 
+    header('Location: index.php?err=' . $error->getMessage() . '&type=warning');
     exit($error->getMessage());
 } catch (Exception $error) {
     // catch any internal errors
@@ -32,4 +33,4 @@ try {
 
 // redirecting user to the login page
 // easier to let user login that it is to login the user directly
-header('Location: index.php'); # should have some kind of message that user was created
+header('Location: index.php?err=User created Successfully&type=success');

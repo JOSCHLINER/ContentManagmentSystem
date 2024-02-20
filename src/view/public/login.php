@@ -22,8 +22,9 @@ try {
     $user = $handler->login($_POST);
 } catch (Error $error) {
     // catch any errors created from users input
-    # should display them in some better way.
 
+    // redirect user to the homepage and show the error created
+    header('Location: index.php?err=' . $error->getMessage() . '&type=error');
     exit($error->getMessage());
 } catch (Exception $error) {
     // catch any internal errors
@@ -35,4 +36,4 @@ try {
 $_SESSION['user'] = serialize($user);
 
 // redirect user to starting page
-header('Location: index.php'); # should display to user that they are successfully logged in
+header('Location: index.php?err=Logged in successfully as ' . $user->username . '.&type=success'); # should display to user that they are successfully logged in
