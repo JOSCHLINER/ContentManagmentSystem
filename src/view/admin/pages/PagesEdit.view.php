@@ -3,7 +3,7 @@
 namespace View\Admin\Pages;
 
 use Trait\View\Admin\AdminPagesTemplate;
-use Controller\Admin\Pages\PagesHandler;
+use Controller\Pages\PagesHandler;
 use Model\Page;
 use Model\Database;
 
@@ -31,7 +31,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             header('Location: ' . $_SERVER['SERVER_NAME'] . '/admin/pages/view');
             exit; # should add an errorcodes for user to see
         }
-        return '<form method="POST"><input name="id" value="' . $this->page->pageId . '"><textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
+        return '<form method="POST"><input name="id" value="' . $this->page->pageId . '">' . $this->page->pageTitle . '<textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
     }
 
     public function handleGetRequest(array &$GETRequest): bool
