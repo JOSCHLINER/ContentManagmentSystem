@@ -4,6 +4,7 @@ namespace Controller\Pages;
 
 use Model\Database;
 use Model\Page;
+use Error;
 
 /**
  * Class to save changes made to Pages.
@@ -15,6 +16,16 @@ class PagesHandler
      * Function for saving changes to an already existing page.
      */
     public function saveChanges(int $articleId, string $content): bool {
+        
+        // check if user owns the site
+        $page = $this->getPage($articleId);
+        $user = unserialize($_SESSION['user']);
+        if ($page->authorId != $user->userId) {
+            throw new Error('Only the page owner can edit the page');
+            return false;
+        }
+
+
         $sql = 'UPDATE articles SET content = ?, created_date = CURRENT_TIMESTAMP WHERE article_id = ?;';
         $types = 'si';
 
