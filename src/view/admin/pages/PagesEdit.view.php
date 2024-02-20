@@ -31,7 +31,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             header('Location: ' . $_SERVER['SERVER_NAME'] . '/admin/pages/view');
             exit; # should add an errorcodes for user to see
         }
-        return '<form method="POST"><input name="id" value="' . $this->page->pageId . '">' . $this->page->pageTitle . '<textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
+        return '<form method="POST"><input name="id" value="' . $this->page->pageId . '"><input type="text" value="' . $this->page->pageTitle . '"><textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
     }
 
     public function handleGetRequest(array &$GETRequest): bool
@@ -88,7 +88,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
      */
     private function isValidPost(&$POSTRequest): bool
     {
-        if (!isset($POSTRequest['id']) or !isset($POSTRequest['content'])) {
+        if (!isset($POSTRequest['id']) or !isset($POSTRequest['content']) or !isset($POSTRequest['title'])) {
             return false;
         }
 
