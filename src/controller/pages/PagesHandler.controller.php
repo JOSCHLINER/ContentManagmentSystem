@@ -64,4 +64,32 @@ class PagesHandler
 
         return null;
     }
+
+    /**
+     * Function to create a page.
+     * 
+     * @return int Returns the id of the created page.
+     */
+    public function createPage(string $content, string $title): int {
+
+        $database = Database::getInstance();
+
+        // creating page in database
+        $sql = 'INSERT INTO articles(author_id, content) VALUES(?, ?);';
+        $types = 'is';
+        $database->query($sql, [unserialize($_SESSION['user'])->userId, $content], $types);
+
+        return $this->getArticleIdByTitle($title);
+    }
+
+    private function getArticleIdByTitle(string $title): int {
+        $database = Database::getInstance();
+
+        $sql = 'SELECT article_id FROM articles WHERE title = ?;';
+        $types = 's';
+        $result = $database->query($sql, [$title], $types)->fetch_assoc();
+
+        return (int) $result['article_id'];
+    }
+
 }
