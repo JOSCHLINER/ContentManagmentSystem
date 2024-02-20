@@ -48,6 +48,9 @@ class ResponseMessages
         return false;
     }
 
+    /**
+     * Function to render the response message.
+     */
     private static function renderResponseMessage()
     {
 ?>
@@ -67,11 +70,14 @@ class ResponseMessages
 <?php
     }
 
+    /**
+     * Function to load the get request into in class variables.
+     */
     private static function getErrorMessage()
     {
-        self::$type = $_GET['err'];
-        self::$errorHeading = isset($_GET['err']) ? '' : $_GET['err'];
-        self::$errorMessage = isset($_GET['msg']) ? '' : $_GET['msg'];
-        self::$errorCode = isset($_GET['code']) ? '' : $_GET['code'];
+        self::$errorHeading = ucfirst($_GET['err']);
+        self::$type = isset($_GET['type']) ? $_GET['type'] : '';
+        self::$errorMessage = isset($_GET['msg']) ? $_GET['msg'] : '';
+        self::$errorCode = isset($_GET['code']) ? $_GET['code'] : '';
     }
 }
