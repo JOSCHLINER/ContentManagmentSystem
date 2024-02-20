@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller\Admin\Pages;
+namespace Controller\Pages;
 
 use Model\Database;
 use Model\Page;
