@@ -4,9 +4,9 @@ $_SESSION['userPrivileges'] = 'a';
 
 include __DIR__ . '/../admin/AdminPagesTemplate.trait.php';
 
-// load and register the Autoloader
-include __DIR__ . '/../../model/Autoloader.model.php';
-Model\Autoloader::register();
+// initialize necessary services
+require __DIR__ . '/../../model/Includes.model.php';
+Model\Includes::initialize();
 
 // load needed classes
 use Controller\Error\HTTPResponse;
