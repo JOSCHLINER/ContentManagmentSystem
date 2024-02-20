@@ -8,6 +8,7 @@ namespace Model;
 class Page {
     public string $pageId;
     public string $pageContent;
+    public string $pageTitle;
     public string $creationDate;
     public string $authorId;
 }
