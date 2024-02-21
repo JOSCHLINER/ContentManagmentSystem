@@ -15,7 +15,7 @@ class PagesHandler
     /**
      * Function for saving changes to an already existing page.
      */
-    public function saveChanges(int $articleId, string $content): bool {
+    public function saveChanges(int $articleId, string $content, string $title): bool {
         
         // check if user owns the site
         $page = $this->getPage($articleId);
@@ -26,11 +26,11 @@ class PagesHandler
         }
 
 
-        $sql = 'UPDATE articles SET content = ?, created_date = CURRENT_TIMESTAMP WHERE article_id = ?;';
-        $types = 'si';
+        $sql = 'UPDATE articles SET content = ?, title = ?, created_date = CURRENT_TIMESTAMP WHERE article_id = ?;';
+        $types = 'ssi';
 
         $database = Database::getInstance();
-        $result = $database->query($sql, [$content, $articleId], $types);
+        $result = $database->query($sql, [$content, $title, $articleId], $types);
 
         return true;
     }
@@ -55,6 +55,7 @@ class PagesHandler
 
             // fill the values in the Page Object
             $page->pageId = $pageId;
+            $page->pageTitle = $result['title'];
             $page->pageContent = $result['content'];
             $page->creationDate = $result['created_date'];
             $page->authorId = $result['author_id'];
@@ -62,6 +63,7 @@ class PagesHandler
             return $page;
         }
 
+        throw new Error('Page not found!');
         return null;
     }
 
@@ -75,9 +77,9 @@ class PagesHandler
         $database = Database::getInstance();
 
         // creating page in database
-        $sql = 'INSERT INTO articles(author_id, content) VALUES(?, ?);';
+        $sql = 'INSERT INTO articles(author_id, title, content) VALUES(?, ?, ?);';
         $types = 'is';
-        $database->query($sql, [unserialize($_SESSION['user'])->userId, $content], $types);
+        $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content], $types);
 
         return $this->getArticleIdByTitle($title);
     }
@@ -89,6 +91,9 @@ class PagesHandler
         $types = 's';
         $result = $database->query($sql, [$title], $types)->fetch_assoc();
 
+        if (!isset($result['article_id'])) {
+            throw new Error('Page not found!');
+        }
         return (int) $result['article_id'];
     }
 
