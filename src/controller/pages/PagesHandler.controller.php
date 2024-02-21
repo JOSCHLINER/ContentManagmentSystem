@@ -15,8 +15,9 @@ class PagesHandler
     /**
      * Function for saving changes to an already existing page.
      */
-    public function saveChanges(int $articleId, string $content, string $title): bool {
-        
+    public function saveChanges(int $articleId, string $content, string $title): bool
+    {
+
         // check if user owns the site
         $page = $this->getPage($articleId);
         $user = unserialize($_SESSION['user']);
@@ -24,7 +25,6 @@ class PagesHandler
             throw new Error('Only the page owner can edit the page');
             return false;
         }
-
 
         $sql = 'UPDATE articles SET content = ?, title = ?, created_date = CURRENT_TIMESTAMP WHERE article_id = ?;';
         $types = 'ssi';
@@ -35,10 +35,35 @@ class PagesHandler
         return true;
     }
 
+
+    /**
+     * Function to delete a page by id.
+     */
+    public function deletePage(int $articleId): bool
+    {
+
+        // check if user owns the site
+        $page = $this->getPage($articleId);
+        $user = unserialize($_SESSION['user']);
+        if ($page->authorId != $user->userId) {
+            throw new Error('Only the page owner can edit the page');
+            return false;
+        }
+
+        // delete the article
+        $database = Database::getInstance();
+        $sql = 'DELETE FROM articles WHERE article_id = ?;';
+        $types = 'i';
+        $result = $database->query($sql, [$articleId], $types);
+
+        return true;
+    }
+
     /**
      * Function to get a page by id.
      */
-    public function getPage(int $pageId): Page|null {
+    public function getPage(int $pageId): Page|null
+    {
 
         $sql = 'SELECT * FROM articles WHERE article_id = ?';
         $type = 'i';
@@ -72,7 +97,8 @@ class PagesHandler
      * 
      * @return int Returns the id of the created page.
      */
-    public function createPage(string $content, string $title): int|null {
+    public function createPage(string $content, string $title): int|null
+    {
 
         $database = Database::getInstance();
 
@@ -84,7 +110,8 @@ class PagesHandler
         return $this->getArticleIdByTitle($title);
     }
 
-    private function getArticleIdByTitle(string $title): int|null {
+    private function getArticleIdByTitle(string $title): int|null
+    {
         $database = Database::getInstance();
 
         $sql = 'SELECT article_id FROM articles WHERE title = ?;';
@@ -98,5 +125,4 @@ class PagesHandler
 
         return (int) $result['article_id'];
     }
-
 }
