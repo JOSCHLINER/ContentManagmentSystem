@@ -5,7 +5,7 @@ namespace View\Admin\Pages;
 use Trait\View\Admin\AdminPagesTemplate;
 use Controller\Pages\PagesHandler;
 use Model\Page;
-use Model\Database;
+use Error;
 
 class AdminPagesPagesEdit extends AdminPagesTemplate
 {
@@ -31,7 +31,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             header('Location: ' . $_SERVER['SERVER_NAME'] . '/admin/pages/view');
             exit; # should add an errorcodes for user to see
         }
-        return '<form method="POST"><input name="id" value="' . $this->page->pageId . '"><input type="text" value="' . $this->page->pageTitle . '"><textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
+        return '<form method="POST"><input name="id" value="' . $this->page->pageId . '"><input type="text" name="title" value="' . $this->page->pageTitle . '"><textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
     }
 
     public function handleGetRequest(array &$GETRequest): bool
@@ -63,11 +63,11 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             return false;
         }
 
-        $pageId = $POSTRequest['id'];
+        $pageId = $this->getPageId($POSTRequest);
 
         // saving changes
         $handler = new PagesHandler();
-        $handler->saveChanges($pageId, $POSTRequest['content']);
+        $handler->saveChanges($pageId, $POSTRequest['content'], $POSTRequest['title']);
 
         // getting the content of the page
         $page = $handler->getPage($pageId);
@@ -77,7 +77,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             return true;
         }
 
-        # should throw error to display to users
+        throw new Error('Page couldn\'t be saved, try again later!');
         return false;
     }
 
@@ -89,6 +89,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
     private function isValidPost(&$POSTRequest): bool
     {
         if (!isset($POSTRequest['id']) or !isset($POSTRequest['content']) or !isset($POSTRequest['title'])) {
+            throw new Error('Invalid Post Request!');
             return false;
         }
 
@@ -102,10 +103,11 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
      */
     private function getPageId(array &$GETRequest): int|null
     {
-        if (isset($GETRequest['id'])) {
+        if (isset($GETRequest['id']) and is_numeric($GETRequest['id'])) {
             return (int) $GETRequest['id'];
         }
 
+        throw new Error('Page doesn\'t exist');
         return null;
     }
 }
