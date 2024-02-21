@@ -37,9 +37,23 @@ if (class_exists($class)) {
 
     // handle requests
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        $instance->handleGetRequest($_GET);
+        try {
+            $instance->handleGetRequest($_GET);
+        } catch (Error $error) {
+            // catch any user generated errors
+
+            // user is redirected to the set error page on a get request
+            header('Location: ' . $instance->errorPathGet . '?err=' . $error->getMessage() . '&type=error');
+        }
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $instance->handlePostRequest($_POST);
+        try {
+            $instance->handlePostRequest($_POST);
+        } catch (Error $error) {
+            // catch any user generated errors
+
+            // user is redirected to the set error page on a post request
+            header('Location: ' . $instance->errorPathPost . '?err=' . $error->getMessage() . '&type=error');
+        }
     }
 
     // start output buffering to allow redirects even after we have echoed items
