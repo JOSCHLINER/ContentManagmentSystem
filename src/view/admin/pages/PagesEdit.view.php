@@ -40,6 +40,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
         // if not, return False
         $pageId = $this->getPageId($GETRequest);
         if (is_null($pageId)) {
+            throw new Error('Page not found!');
             return false;
         }
 
@@ -53,6 +54,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             return true;
         }
 
+        throw new Error('Page couldn\'t be found');
         return false;
     }
 
@@ -97,14 +99,14 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
     }
 
     /**
-     * Function to get the article if from a Get request
+     * Function to get the article if from a request, Get or Post.
      * 
      * @return int|null Returns the page id if one exists, otherwise null.
      */
-    private function getPageId(array &$GETRequest): int|null
+    private function getPageId(array &$Request): int|null
     {
-        if (isset($GETRequest['id']) and is_numeric($GETRequest['id'])) {
-            return (int) $GETRequest['id'];
+        if (isset($Request['id']) and is_numeric($Request['id'])) {
+            return (int) $Request['id'];
         }
 
         throw new Error('Page doesn\'t exist');
