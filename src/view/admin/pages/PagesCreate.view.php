@@ -34,12 +34,17 @@ class AdminPagesPagesCreate extends AdminPagesTemplate
         $handler = new PagesHandler();
         try {
             $pageId = $handler->createPage($POSTRequest['content'], $POSTRequest['title']);
+            if (is_null($pageId)) {
+                throw new Error();
+            }
+
         }   catch(Error $error) {      
             // if the creation of the page fails
             
             throw new Error('Failed creating Page, please try again later!');
         }
 
+        http_response_code(303);
         header('Location: /admin/pages/edit?id=' . $pageId);
         return true;
     }
