@@ -72,19 +72,19 @@ class PagesHandler
      * 
      * @return int Returns the id of the created page.
      */
-    public function createPage(string $content, string $title): int {
+    public function createPage(string $content, string $title): int|null {
 
         $database = Database::getInstance();
 
         // creating page in database
         $sql = 'INSERT INTO articles(author_id, title, content) VALUES(?, ?, ?);';
-        $types = 'is';
+        $types = 'iss';
         $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content], $types);
 
         return $this->getArticleIdByTitle($title);
     }
 
-    private function getArticleIdByTitle(string $title): int {
+    private function getArticleIdByTitle(string $title): int|null {
         $database = Database::getInstance();
 
         $sql = 'SELECT article_id FROM articles WHERE title = ?;';
@@ -93,7 +93,9 @@ class PagesHandler
 
         if (!isset($result['article_id'])) {
             throw new Error('Page not found!');
+            return null;
         }
+
         return (int) $result['article_id'];
     }
 
