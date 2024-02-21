@@ -39,6 +39,25 @@ class AdminPagesTemplate
      * The names of the pages should be separated by a single space.
      */
     protected string $settingsPath = '';
+
+
+    /**
+     * Link to the page the user is redirected to in case of an error occurring on a get request.
+     * 
+     * A page should never redirect to itself.
+     * A redirect towards the same page could case an infinite loop, creating a self inflicted Dos attack.
+     * Exempt from this are static pages.
+     * 
+     * @var string $errorPath The path should not end with a / .
+     */
+    public string $errorPathGet = '/admin/home';
+
+    /**
+     * Link to the page the user is redirected to in case of an error occurring on a get request.
+     * 
+     * Can redirect to its own page as it will be a get request.
+     */
+    public string $errorPathPost = '/admin/home';
     private function __construct()
     {
     }
