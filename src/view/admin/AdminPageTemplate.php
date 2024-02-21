@@ -1,3 +1,7 @@
+<?php 
+    use Controller\Error\ResponseMessages;
+?>
+
 <!-- 
     Template for all admin pages, with calls to the right functions already inside.
     Can only be used by the AdminPagesTemplate class and its children.
@@ -19,9 +23,9 @@
             <label for="navigation-list" class="sidebar-list-label">Main</label>
             <ul id="navigation-list">
                 <li class="navigation-item"><a href="/admin/home">Home</a></li>
-                <li class="navigation-item"><a href="">Pages</a></li>
                 <li class="navigation-item"><a href="/admin/settings">Settings</a></li>
                 <li class="navigation-item"><a href="/admin/settings/edit">Edit Settings</a></li>
+                <li class="navigation-item"><a href="/admin/pages/create">Create page</a></li>
             </ul>
         </nav>
 
@@ -37,6 +41,7 @@
                 </span>
                 <main class="dashboard">
                     <!-- here are the settings placed -->
+                    <?= ResponseMessages::displayMessage() ?>
                     <?= $this->renderSettingsDashboard() ?>
                 </main>
             </div>
