@@ -18,7 +18,6 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
 
     protected function renderSettingsDashboard(): string
     {
-
         // if we don't have a page
         // user gets redirects to Pages Overview
         if (is_null($this->page)) {
@@ -27,11 +26,21 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             ob_end_clean();
 
             // redirect user to the the view pages site
-            http_response_code(404);
+            http_response_code(303);
             header('Location: ' . $_SERVER['SERVER_NAME'] . '/admin/pages/view');
-            exit; # should add an errorcodes for user to see
+            exit(); # should add an errorcodes for user to see
         }
-        return '<form method="POST"><input name="id" value="' . $this->page->pageId . '"><input type="text" name="title" value="' . $this->page->pageTitle . '"><textarea name="content">' . $this->page->pageContent . '</textarea><input type="submit"></form>';
+
+        # should make nicer once the backend is done
+        return '<form method="POST" class="editform">
+        <input name="id" type="hidden" value="' . $this->page->pageId . '">
+        <input type="text" name="title" value="' . $this->page->pageTitle . '">
+        <textarea name="content" rows=5>' . $this->page->pageContent . '</textarea>
+        <input type="submit"></form>
+        <form method="POST">
+        <input type="hidden" name="id" value="' . $this->page->pageId . '">
+        <input name="delete" type="submit" value="Delete Page">
+        </form>';
     }
 
     public function handleGetRequest(array &$GETRequest): bool
@@ -60,8 +69,31 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
 
     public function handlePostRequest(array &$POSTRequest): bool
     {
+        if (isset($POSTRequest['delete'])) {
+            // if the page should be deleted
 
-        if (!$this->isValidPost($POSTRequest)) {
+            // check if a page id was provided
+            if (empty($POSTRequest['id'])) {
+                throw new Error('No page provided');
+                return false;
+            }
+
+            // deleting the page
+            $handler = new PagesHandler();
+            return $handler->deletePage($POSTRequest['id']);
+        } elseif (isset($POSTRequest['edit'])) {
+            // if changes to the page are made
+
+            return $this->editPage($POSTRequest);
+        } else {
+            throw new Error('Not a valid operation!');
+            return false;
+        }
+    }
+
+    private function editPage(array &$Request): bool
+    {
+        if (!$this->isValidPost($Request)) {
             return false;
         }
 
@@ -69,7 +101,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
 
         // saving changes
         $handler = new PagesHandler();
-        $handler->saveChanges($pageId, $POSTRequest['content'], $POSTRequest['title']);
+        $handler->saveChanges($pageId, $Request['content'], $Request['title']);
 
         // getting the content of the page
         $page = $handler->getPage($pageId);
