@@ -83,7 +83,7 @@ class AdminPagesTemplate
     {
         // load file with the template for the admin page with he right functions calls inside
         try {
-            include __DIR__ . '/AdminPageTemplate.php';
+            include __DIR__ . '/../templates/AdminPageTemplate.php';
         } catch (Exception $error) {
         }
     }
