@@ -1,7 +1,4 @@
 <?php
-# only enabled for testing purposes
-$_SESSION['userPrivileges'] = 'a';
-
 include __DIR__ . '/../admin/AdminPagesTemplate.trait.php';
 
 // initialize necessary services
@@ -43,6 +40,7 @@ if (class_exists($class)) {
             // catch any user generated errors
 
             // user is redirected to the set error page on a get request
+            http_response_code(400);
             header('Location: ' . $instance->errorPathGet . '?err=' . $error->getMessage() . '&type=error');
         }
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -52,7 +50,9 @@ if (class_exists($class)) {
             // catch any user generated errors
 
             // user is redirected to the set error page on a post request
+            http_response_code(400);
             header('Location: ' . $instance->errorPathPost . '?err=' . $error->getMessage() . '&type=error');
+            exit();
         }
     }
 
