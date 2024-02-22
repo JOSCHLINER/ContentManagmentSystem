@@ -2,10 +2,9 @@
 
 namespace Trait\View\Admin;
 
-
+use View\Templates\Pages;
 use Controller\Error\HTTPResponse;
 use Controller\Users\Authenticate;
-use Exception;
 
 /**
  * Class working as template for all admin pages.
@@ -27,7 +26,7 @@ use Exception;
  *}
  * ```
  */
-class AdminPagesTemplate
+class AdminPagesTemplate extends Pages
 {
     /** 
      * Variable for the name of the page.
@@ -58,8 +57,10 @@ class AdminPagesTemplate
      * Can redirect to its own page as it will be a get request.
      */
     public string $errorPathPost = '/admin/home';
-    private function __construct()
+    protected function __construct()
     {
+        $this->pageTitle = isset($this->pageTitle) ? $this->pageTitle : 'Admin Panel';
+        parent::__construct();
     }
 
     /**
@@ -79,13 +80,9 @@ class AdminPagesTemplate
     /**
      * Function for rendering admin pages.
      */
-    public function renderPage()
+    protected function pageContent()
     {
-        // load file with the template for the admin page with he right functions calls inside
-        try {
-            include __DIR__ . '/../templates/AdminPageTemplate.php';
-        } catch (Exception $error) {
-        }
+        return $this->renderSettingsDashboard();
     }
 
     /**
