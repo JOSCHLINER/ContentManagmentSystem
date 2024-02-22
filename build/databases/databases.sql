@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS articles(
     article_id INT AUTO_INCREMENT PRIMARY KEY,
     author_id INT NOT NULL, 
     content TEXT NOT NULL,
-    title TEXT NOT NULL,
+    summary VARCHAR(600) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (author_id) REFERENCES users(user_id)
