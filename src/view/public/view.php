@@ -3,7 +3,7 @@
 require __DIR__ . '/../../model/Includes.model.php';
 Model\Includes::initialize();
 
-use View\Render\ViewPage;
+use View\Render\PageRenderer;
 use View\Templates\Pages;
 
 /**
@@ -13,10 +13,10 @@ class View extends Pages
 {
 
     protected string $errorPath = '/';
-    private ViewPage $pageRender;
+    private PageRenderer $pageRender;
     public function __construct(int $title)
     {
-        $this->pageRender = new ViewPage($title);
+        $this->pageRender = new PageRenderer($title);
         $this->pageTitle = $this->pageRender->pageTitle();
 
         parent::__construct();
