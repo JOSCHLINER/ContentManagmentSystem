@@ -8,6 +8,7 @@ use Controller\Settings\AdminSettings;
 
 class AdminPagesSettings extends AdminPagesTemplate
 {
+    protected string $errorPath = '/admin/home';
     protected string $pageTitle = 'Settings';
     protected function __construct()
     {

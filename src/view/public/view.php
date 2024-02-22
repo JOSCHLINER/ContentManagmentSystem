@@ -12,6 +12,7 @@ use View\Templates\Pages;
 class View extends Pages
 {
 
+    protected string $errorPath = '/';
     private ViewPage $pageRender;
     public function __construct(int $title)
     {

@@ -7,6 +7,8 @@ use Trait\View\Admin\AdminPagesTemplate;
 class AdminPagesHome extends AdminPagesTemplate
 {
 
+    protected string $errorPath = '/';
+    protected string $pageTitle = 'Admin Panel';
     protected function __construct()
     {
         parent::__construct();

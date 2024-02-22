@@ -11,6 +11,7 @@ use Controller\Settings\AdminSettings;
 class AdminPagesSettingsEdit extends AdminPagesTemplate
 {
 
+    protected string $errorPath = '/admin/settings';
     protected string $pageTitle = 'Edit Settings';
     private AdminSettings $settingsInstance;
     protected function __construct()
