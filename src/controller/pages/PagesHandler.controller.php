@@ -68,7 +68,7 @@ class PagesHandler
     public function getPage(int $pageId): Page|null
     {
 
-        $sql = 'SELECT * FROM articles WHERE article_id = ?';
+        $sql = 'SELECT article_id, author_id, username, title, content, created_date FROM articles a LEFT JOIN users u ON a.author_id = u.user_id WHERE article_id = ?;';
         $type = 'i';
 
         $database = Database::getInstance();
@@ -86,6 +86,7 @@ class PagesHandler
             $page->pageTitle = $result['title'];
             $page->pageContent = $result['content'];
             $page->creationDate = $result['created_date'];
+            $page->pageAuthor = $result['username'];
             $page->authorId = $result['author_id'];
 
             return $page;
