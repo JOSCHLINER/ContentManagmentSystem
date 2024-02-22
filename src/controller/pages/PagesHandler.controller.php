@@ -26,6 +26,9 @@ class PagesHandler
             return false;
         }
 
+        $content = htmlspecialchars($content);
+        $title = htmlspecialchars($title);
+
         $sql = 'UPDATE articles SET content = ?, title = ?, created_date = CURRENT_TIMESTAMP WHERE article_id = ?;';
         $types = 'ssi';
 
@@ -46,7 +49,7 @@ class PagesHandler
         $page = $this->getPage($articleId);
         $user = unserialize($_SESSION['user']);
         if ($page->authorId != $user->userId) {
-            throw new Error('Only the page owner can edit the page');
+            throw new Error('Only the page owner can delete the page');
             return false;
         }
 
@@ -99,6 +102,10 @@ class PagesHandler
      */
     public function createPage(string $content, string $title): int|null
     {
+
+        // escape user created html to mitigate XSS attacks
+        $content = htmlspecialchars($content);
+        $title = htmlspecialchars($title);
 
         $database = Database::getInstance();
 
