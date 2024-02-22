@@ -35,4 +35,8 @@ class Settings
 
         Database::loadSettings($database, $host, $user, $password, $port);
     }
+
+    public function getAppName(): string {
+        return isset(self::$settings['About']['app_name']) ? self::$settings['About']['app_name'] : '';
+    }
 }
