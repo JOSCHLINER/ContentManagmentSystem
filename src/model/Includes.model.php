@@ -41,7 +41,7 @@ class Includes
     {
         if (!Authenticate::isLoggedIn()) {
             http_response_code(403);
-            header('Location: signup.php');
+            header('Location: register.php');
         }
     }
 
