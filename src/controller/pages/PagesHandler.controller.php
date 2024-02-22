@@ -15,7 +15,7 @@ class PagesHandler
     /**
      * Function for saving changes to an already existing page.
      */
-    public function saveChanges(int $articleId, string $content, string $title): bool
+    public function saveChanges(int $articleId, string $content, string $summary, string $title): bool
     {
 
         // check if user owns the site
@@ -29,11 +29,11 @@ class PagesHandler
         $content = htmlspecialchars($content);
         $title = htmlspecialchars($title);
 
-        $sql = 'UPDATE articles SET content = ?, title = ?, created_date = CURRENT_TIMESTAMP WHERE article_id = ?;';
-        $types = 'ssi';
+        $sql = 'UPDATE articles SET content = ?, summary = ?, title = ?, created_date = CURRENT_TIMESTAMP WHERE article_id = ?;';
+        $types = 'sssi';
 
         $database = Database::getInstance();
-        $result = $database->query($sql, [$content, $title, $articleId], $types);
+        $result = $database->query($sql, [$content, $summary, $title, $articleId], $types);
 
         return true;
     }
@@ -68,7 +68,7 @@ class PagesHandler
     public function getPage(int $pageId): Page|null
     {
 
-        $sql = 'SELECT article_id, author_id, username, title, content, created_date FROM articles a LEFT JOIN users u ON a.author_id = u.user_id WHERE article_id = ?;';
+        $sql = 'SELECT article_id, author_id, username, title, content, summary, created_date FROM articles a LEFT JOIN users u ON a.author_id = u.user_id WHERE article_id = ?;';
         $type = 'i';
 
         $database = Database::getInstance();
@@ -85,6 +85,7 @@ class PagesHandler
             $page->pageId = $pageId;
             $page->pageTitle = $result['title'];
             $page->pageContent = $result['content'];
+            $page->pageSummary = $result['summary'];
             $page->creationDate = $result['created_date'];
             $page->pageAuthor = $result['username'];
             $page->authorId = $result['author_id'];
@@ -101,19 +102,20 @@ class PagesHandler
      * 
      * @return int Returns the id of the created page.
      */
-    public function createPage(string $content, string $title): int|null
+    public function createPage(string $content, string $summary, string $title): int|null
     {
 
         // escape user created html to mitigate XSS attacks
         $content = htmlspecialchars($content);
+        $summary = htmlspecialchars($summary);
         $title = htmlspecialchars($title);
 
         $database = Database::getInstance();
 
         // creating page in database
-        $sql = 'INSERT INTO articles(author_id, title, content) VALUES(?, ?, ?);';
-        $types = 'iss';
-        $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content], $types);
+        $sql = 'INSERT INTO articles(author_id, title, content, summary) VALUES(?, ?, ?, ?);';
+        $types = 'isss';
+        $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content, $summary], $types);
 
         return $this->getArticleIdByTitle($title);
     }
