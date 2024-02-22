@@ -6,6 +6,7 @@ use Controller\Settings\Settings;
 use Controller\Users\Authenticate;
 use Controller\Error\HTTPResponse;
 use Exception;
+use Error;
 
 class AdminSettings extends Settings
 {
@@ -46,6 +47,7 @@ class AdminSettings extends Settings
             file_put_contents(__DIR__ . '/' . $this->settingsFile, $newIniContents);
             $this->loadSettingsFile();
         } catch (Exception $error) {
+            throw new Error('Settings couldn\'t be saved');
             return false;
         }
 
