@@ -36,7 +36,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
         <input name="id" type="hidden" value="' . $this->page->pageId . '">
         <input type="text" name="title" value="' . $this->page->pageTitle . '">
         <textarea name="content" rows=5>' . $this->page->pageContent . '</textarea>
-        <input type="submit"></form>
+        <input type="submit" name="edit"></form>
         <form method="POST">
         <input type="hidden" name="id" value="' . $this->page->pageId . '">
         <input name="delete" type="submit" value="Delete Page">
@@ -97,7 +97,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
             return false;
         }
 
-        $pageId = $this->getPageId($POSTRequest);
+        $pageId = $this->getPageId($Request);
 
         // saving changes
         $handler = new PagesHandler();
