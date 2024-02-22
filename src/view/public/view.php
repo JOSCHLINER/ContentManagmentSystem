@@ -38,6 +38,7 @@ class View extends Pages
 
         </div>
         <hr>
+        <b> <?= $this->pageRender->renderMarkdownSummary() ?> </b>
         <?= $this->pageRender->renderMarkdownMainContent() ?>
 
 <?php
