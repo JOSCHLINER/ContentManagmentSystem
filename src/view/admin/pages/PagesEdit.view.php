@@ -14,6 +14,8 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
     {
         $this->settingsPath = 'Pages';
         $this->settingsName = 'Page edit';
+
+        parent::__construct();
     }
 
     protected function renderSettingsDashboard(): string

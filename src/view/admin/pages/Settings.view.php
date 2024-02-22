@@ -12,6 +12,8 @@ class AdminPagesSettings extends AdminPagesTemplate
     {
         $this->settingsPath = 'Settings';
         $this->settingsName = 'General Settings View';
+
+        parent::__construct();
     }
 
     protected function renderSettingsDashboard(): string

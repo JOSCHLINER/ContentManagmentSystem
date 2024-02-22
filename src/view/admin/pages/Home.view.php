@@ -11,6 +11,8 @@ class AdminPagesHome extends AdminPagesTemplate
     {
         $this->settingsPath = 'Home';
         $this->settingsName = 'Main';
+
+        parent::__construct();
     }
 
     protected function renderSettingsDashboard(): string

@@ -16,6 +16,8 @@ class AdminPagesPagesCreate extends AdminPagesTemplate
     protected string $settingsPath = 'Page edit';
     protected function __construct()
     {
+        
+        parent::__construct();
     }
 
     protected function renderSettingsDashboard(): string

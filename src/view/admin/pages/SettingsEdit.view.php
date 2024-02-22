@@ -18,6 +18,8 @@ class AdminPagesSettingsEdit extends AdminPagesTemplate
         $this->settingsName = 'Edit Settings';
 
         $this->settingsInstance = AdminSettings::createInstance();
+
+        parent::__construct();
     }
 
 
