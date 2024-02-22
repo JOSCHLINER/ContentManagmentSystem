@@ -31,29 +31,15 @@ if (class_exists($class)) {
     $settings->loadDatabase();
 
     $instance = $class::createInstance();
-
-    // handle requests
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        try {
+    try {
+        // handle requests
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $instance->handleGetRequest($_GET);
-        } catch (Error $error) {
-            // catch any user generated errors
-
-            // user is redirected to the set error page on a get request
-            http_response_code(400);
-            header('Location: ' . $instance->errorPathGet . '?err=' . $error->getMessage() . '&type=error');
-        }
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        try {
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $instance->handlePostRequest($_POST);
-        } catch (Error $error) {
-            // catch any user generated errors
-
-            // user is redirected to the set error page on a post request
-            http_response_code(400);
-            header('Location: ' . $instance->errorPathPost . '?err=' . $error->getMessage() . '&type=error');
-            exit();
         }
+    } catch (Error $error) {
+        $page->errorRedirect('An error occurred', $error->getMessage());
     }
 
     // start output buffering to allow redirects even after we have echoed items
