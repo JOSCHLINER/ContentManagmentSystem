@@ -66,7 +66,7 @@ class Create extends Pages
         try {
             // trying to create the page
 
-            $pageId = $handler->createPage($Request['content'], $Request['title']);
+            $pageId = $handler->createPage($Request['content'], $Request['summary'], $Request['title']);
             if (is_null($pageId)) {
                 throw new Error();
             }
