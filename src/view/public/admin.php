@@ -1,9 +1,9 @@
 <?php
-include __DIR__ . '/../admin/AdminPagesTemplate.trait.php';
-
 // initialize necessary services
 require __DIR__ . '/../../model/Includes.model.php';
 Model\Includes::initialize();
+
+include __DIR__ . '/../admin/AdminPagesTemplate.trait.php';
 
 // load needed classes
 use Controller\Error\HTTPResponse;
