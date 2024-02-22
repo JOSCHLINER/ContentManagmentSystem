@@ -1,6 +1,9 @@
 <?php
 
 namespace Model;
+
+use Libraries\Parsedown;
+
 /**
  * Class for view pages. Initializes important services.
  * 
@@ -26,6 +29,13 @@ class Includes {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+    }
+
+    public static function getSecureParsedown(): Parsedown {
+        $parser = new Parsedown();
+        $parser->setSafeMode(true);
+
+        return $parser;
     }
 
 }
