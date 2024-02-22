@@ -2,7 +2,9 @@
 # ignore the www/html directory which is created in bash script
 www/html/
 
-# igonre all external libaries
+**/test.php
+
+# ignore all external libaries
 src/libraries/*
 !src/libraries/*.md
 
