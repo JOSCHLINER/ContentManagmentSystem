@@ -10,7 +10,7 @@ use Model\Includes;
 /**
  * Class to creating pages rendering sites.
  */
-class ViewPage {
+class PageRenderer {
 
      private int $pageId;
      private Page $page;
