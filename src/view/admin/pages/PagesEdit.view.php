@@ -101,7 +101,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
 
         // saving changes
         $handler = new PagesHandler();
-        $handler->saveChanges($pageId, $Request['content'], $Request['title']);
+        $handler->saveChanges($pageId, $Request['content'], $Request['summary'], $Request['title']);
 
         // getting the content of the page
         $page = $handler->getPage($pageId);
@@ -122,7 +122,7 @@ class AdminPagesPagesEdit extends AdminPagesTemplate
      */
     private function isValidPost(&$POSTRequest): bool
     {
-        if (!isset($POSTRequest['id']) or !isset($POSTRequest['content']) or !isset($POSTRequest['title'])) {
+        if (!isset($POSTRequest['id']) or !isset($POSTRequest['content']) or !isset($POSTRequest['title']) or !isset($POSTRequest['summary'])) {
             throw new Error('Invalid Post Request!');
             return false;
         }
