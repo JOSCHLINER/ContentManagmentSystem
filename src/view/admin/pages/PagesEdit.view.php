@@ -10,11 +10,9 @@ use Error;
 class AdminPagesPagesEdit extends AdminPagesTemplate
 {
     private ?Page $page = null;
+    protected string $pageTitle = 'Edit Page';
     protected function __construct()
     {
-        $this->settingsPath = 'Pages';
-        $this->settingsName = 'Page edit';
-
         parent::__construct();
     }
 

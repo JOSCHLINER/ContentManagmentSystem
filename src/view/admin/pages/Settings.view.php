@@ -8,11 +8,9 @@ use Controller\Settings\AdminSettings;
 
 class AdminPagesSettings extends AdminPagesTemplate
 {
+    protected string $pageTitle = 'Settings';
     protected function __construct()
     {
-        $this->settingsPath = 'Settings';
-        $this->settingsName = 'General Settings View';
-
         parent::__construct();
     }
 

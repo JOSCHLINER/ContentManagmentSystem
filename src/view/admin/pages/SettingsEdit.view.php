@@ -11,12 +11,10 @@ use Controller\Settings\AdminSettings;
 class AdminPagesSettingsEdit extends AdminPagesTemplate
 {
 
+    protected string $pageTitle = 'Edit Settings';
     private AdminSettings $settingsInstance;
     protected function __construct()
     {
-        $this->settingsPath = 'Home Settings';
-        $this->settingsName = 'Edit Settings';
-
         $this->settingsInstance = AdminSettings::createInstance();
 
         parent::__construct();
