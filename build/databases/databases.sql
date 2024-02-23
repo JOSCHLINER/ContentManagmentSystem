@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS articles(
     content TEXT NOT NULL,
     summary VARCHAR(600) NOT NULL,
     title VARCHAR(100) NOT NULL,
+    restricted BOOLEAN DEFAULT FALSE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (author_id) REFERENCES users(user_id)
