@@ -56,6 +56,8 @@ class Includes
     {
         $parser = new Parsedown();
         $parser->setSafeMode(true);
+        $parser->setMarkupEscaped(true);
+
 
         return $parser;
     }
