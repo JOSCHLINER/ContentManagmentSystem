@@ -3,3 +3,27 @@ footer {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
+.submit_register_form {
+    width: 30rem;
+}
+
+center.submit_register_form {
+    height: 100vh;
+}
+
+h5,
+span,
+p {
+    overflow-wrap: break-word;
+}
+
+/* class for links where children of the div are not styled as links */
+.hidden_link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.hidden_link:hover {
+    color: inherit;
+}
