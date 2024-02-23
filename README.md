@@ -10,10 +10,10 @@ As outlined below is my roadmap for this project. This is not a timed roadmap a 
   In this first release, I just want to get something working out, a minimally viable product. In this phase, I want to try writing a stable backend with clean code on which I can later build. The front end is not a priority and just has to do the job.
   That means that styling as well as proper HTML structures are not something I care much about at the moment, as they can easily be implemented later on when I have come up with a proper design.
   The tasks required to reach this milestone are the following:
-  - [ ] admin panel
-  - [ ] create and view Pages
-  - [ ] very simple user system
-  - [ ] basic documentation
+  - [x] admin panel
+  - [x] Create and view Pages
+  - [x] very simple user system
+  - [x] basic documentation
 
 - ***Frontend cleanup*** *(in progress)*
 
