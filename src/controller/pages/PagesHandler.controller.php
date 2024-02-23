@@ -18,11 +18,12 @@ class PagesHandler
     public function saveChanges(int $articleId, string $content, string $summary, string $title): bool
     {
 
-        // check if user owns the site
+        // check if the page is in restricted mode
+        // in which case only the owner can edit the page
         $page = $this->getPage($articleId);
         $user = unserialize($_SESSION['user']);
-        if ($page->authorId != $user->userId) {
-            throw new Error('Only the page owner can edit the page');
+        if ($page->restricted == true and $page->authorId != $user->userId) {
+            throw new Error('This page is in restricted mode, meaning only the owner can make changes to it.');
             return false;
         }
 
