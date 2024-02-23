@@ -7,8 +7,8 @@ namespace Controller\Error;
  */
 class ResponseMessages
 {
-    private static string $errorHeading = '';
-    private static string $errorMessage = '';
+    private static string $alertHeading = '';
+    private static string $alertMessage = '';
     private static string $icon;
 
     /**
@@ -28,12 +28,11 @@ class ResponseMessages
     {
         if (self::hasResponseMessage()) {
 
-            // setting the style of the window
-            // and getting the right icon
+            self::$type = isset($_GET['type']) ? htmlspecialchars($_GET['type']) : 'error';
             self::setResponseStyle();
 
-            // get the errormessage
-            self::getErrorMessage();
+            // get the alert message
+            self::getAlertMessage();
 
             // render error message
             self::renderResponseMessage();
@@ -74,8 +73,8 @@ class ResponseMessages
             <div class="d-flex align-items-center">
                 <?= self::$icon ?>
                 <div class="ms-3">
-                    <h5 class="alert-heading"><?= self::$errorHeading ?></h5>
-                    <p class="m-0"><?= self::$errorMessage ?></p>
+                    <h5 class="alert-heading"><?= self::$alertHeading ?></h5>
+                    <p class="m-0"><?= self::$alertMessage ?></p>
                 </div>
             </div>
         </div>
@@ -86,16 +85,17 @@ class ResponseMessages
     /**
      * Function to load the get request into in class variables.
      */
-    private static function getErrorMessage()
+    private static function getAlertMessage()
     {
-        self::$errorHeading = ucfirst(htmlspecialchars($_GET['err']));
-        self::$errorMessage = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : '';
+        self::$alertHeading = ucfirst(htmlspecialchars($_GET['err']));
+        self::$alertMessage = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : '';
     }
 
     private static function setResponseStyle()
     {
-        $type = isset($_GET['type']) ? htmlspecialchars($_GET['type']) : 'error';
-        switch ($type) {
+        // setting the style of the window
+        // and getting the right icon
+        switch (self::$type) {
             case 'info':
                 self::$icon = '<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>';
                 self::$type = 'primary';
@@ -109,5 +109,18 @@ class ResponseMessages
                 self::$type = 'danger';
                 break;
         }
+    }
+
+    /**
+     * Function for script to call to create an alert message.
+     */
+    public static function printMessage(string $heading, string $type = 'error', string $message = '') {
+        self::$type = $type;
+        self::setResponseStyle();
+
+        self::$alertHeading = $heading;
+        self::$alertMessage = $message;
+
+        self::renderResponseMessage();
     }
 }
