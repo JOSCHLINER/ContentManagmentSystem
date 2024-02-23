@@ -13,7 +13,7 @@ class PagesSearch { # just shows all pages for now.
     private array $results;
     private array $filterParams;
     private string $linkPath;
-    public function __construct(array $filterParams, string $linkPath = '/wiki/') {
+    public function __construct(array $filterParams, string $linkPath = '/wiki') {
         $this->filterParams = $filterParams;
         $this->linkPath = $linkPath;
         $this->getResults();
