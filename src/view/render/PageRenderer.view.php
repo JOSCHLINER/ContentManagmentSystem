@@ -44,4 +44,7 @@ class PageRenderer {
           return $this->page->creationDate;
      }
 
+     public function pageId(): int {
+          return $this->page->pageId;
+     }
 }
