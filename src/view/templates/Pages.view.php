@@ -121,9 +121,13 @@ class Pages
       <title> <?= $this->appName ?> - <?= $this->pageTitle ?></title>
     </head>
 
-    <body>
-      <main class="container">
+    <body class="min-vh-100">
+      <div class="m-5">
         <?= ResponseMessages::displayMessage() ?>
+      </div>
+
+      <main class="d-flex align-items-center justify-content-center" style="height:100vh">
+
         <?= $this->pageContent() ?>
       </main>
 
@@ -138,7 +142,7 @@ class Pages
   {
     http_response_code(400);
     header('Location: ' . $this->errorPath  . "?err=$error&msg=$message&type=error");
-    die($error);
+    die();
   }
 
   protected function pageContent()
