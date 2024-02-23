@@ -1,20 +1,59 @@
 <?php
-include __DIR__ . '/../../model/Autoloader.controller.php';
-Model\Autoloader::register();
+// initialize necessary services
+require __DIR__ . '/../../model/Includes.model.php';
+Model\Includes::initialize();
 
+use View\Templates\Pages;
+use Controller\Pages\PagesHandler;
+use View\Templates\PagesSearch;
+
+class Index extends Pages
+{
+
+    public function __construct()
+    {
+        $this->pageTitle = 'Home';
+
+        parent::__construct();
+    }
+
+    protected function pageContent()
+    {
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+        <h1>All pages</h1>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique adipisci esse nemo ipsa, modi error nesciunt, harum excepturi quod odio repellendus dolores autem qui? Asperiores porro possimus tenetur eaque veritatis?
+        </p>
 
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Index</title>
-</head>
+        <hr class="my-4">
 
-<body>
+<?php
 
-</body>
+        if (!isset($_GET['err']) or (isset($_GET['type']) and $_GET['type'] != 'error')) {
+            try {
+                $pagesFilter = new PagesSearch([]);
+                $pagesFilter->render();
+            } catch (Exception | Error $error) {
+                var_dump($error);
+                // throw new Error('Pages couldn\'t be fetched');
+            }
+        }
+    }
+}
 
-</html>
+$page = new Index();
+
+try {
+    ob_start();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $page->handlePostRequest($_POST);
+    } else {
+        $page->renderPage();
+    }
+} catch (Error $error) {
+    ob_end_clean();
+    $page->errorRedirect('An error occurred when rendering the page!', $error->getMessage());
+}
+
+ob_end_flush();
