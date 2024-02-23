@@ -2,7 +2,7 @@
 
 namespace View\Templates;
 
-
+use Controller\Error\ResponseMessages;
 use Model\Database;
 use Model\Includes;
 
@@ -23,6 +23,10 @@ class PagesSearch { # just shows all pages for now.
 ?>
     <div class="container">
 <?php
+        if (empty($this->results)) {
+            ResponseMessages::printMessage('No matching pages found', 'info', 'Please try another wording or phrase.');
+        }
+
         foreach($this->results as $result) {
             $this->renderPreview($result);
         }
