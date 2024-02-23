@@ -4,7 +4,6 @@ require __DIR__ . '/../../model/Includes.model.php';
 Model\Includes::initialize();
 
 use View\Templates\Pages;
-use Controller\Pages\PagesHandler;
 use View\Templates\PagesSearch;
 
 class Index extends Pages
@@ -23,7 +22,9 @@ class Index extends Pages
 
         <h1>All pages</h1>
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique adipisci esse nemo ipsa, modi error nesciunt, harum excepturi quod odio repellendus dolores autem qui? Asperiores porro possimus tenetur eaque veritatis?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error aspernatur dicta alias itaque
+            ipsum earum, veritatis voluptatem officiis totam temporibus voluptate neque libero, suscipit
+            commodi explicabo, aperiam culpa? Voluptas, quos.
         </p>
 
         <hr class="my-4">
@@ -35,8 +36,7 @@ class Index extends Pages
                 $pagesFilter = new PagesSearch([]);
                 $pagesFilter->render();
             } catch (Exception | Error $error) {
-                var_dump($error);
-                // throw new Error('Pages couldn\'t be fetched');
+                throw new Error('Pages couldn\'t be fetched');
             }
         }
     }
