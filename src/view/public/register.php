@@ -24,24 +24,24 @@ class RegisterPage extends Pages
     protected function pageContent()
     {
 ?>
-
-        <form method="Post">
-            <div class="form-group">
+        <div class="display-block shadow bg-body-tertiary rounded p-3 mb-5">
+            <form class="submit_register_form d-block" method="Post">
+            <div class="form-group pb-3">
                 <label for="usernameInput">Username</label>
                 <input type="text" class="form-control" id="usernameInput" name="username" aria-describedby="usernameHelp" placeholder="Enter username" maxlength="64" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group pb-3">
                 <label for="emailInput">Email address</label>
                 <input type="email" class="form-control" id="emailInput" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group pb-3">
                 <label for="passwordInput">Password</label>
                 <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password" required>
             </div>
 
-            <div class="form-check">
+            <div class="form-check pb-3">
                 <input type="checkbox" class="form-check-input" id="tosCheckbox" required>
                 <label class="form-check-label" for="tosCheckbox">I agree to the <a href="#">Terms and Services</a></label>
             </div>
@@ -49,10 +49,10 @@ class RegisterPage extends Pages
             <input type="submit" class="btn btn-primary" value="Register">
         </form>
 
-        <div class="d-block">
-            <p>Already have an account? <a href="login.php" class="btn btn-link">Login</a></p>
+        <div class="pt-5">
+            Already have an account?<a href="login.php" class="btn btn-link">Login</a>
         </div>
-
+    </div>
 
 <?php
     }
@@ -66,7 +66,7 @@ class RegisterPage extends Pages
 
         // redirecting user to the login page
         // easier to let user login that it is to login the user directly
-        header("Location: register.php?err=$username created Successfully&type=success");
+        header("Location: login.php?err=$username created Successfully&type=success");
     }
 }
 

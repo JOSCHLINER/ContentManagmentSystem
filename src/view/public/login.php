@@ -24,22 +24,24 @@ class LoginPage extends Pages
     {
 ?>
 
-        <form method="Post">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Username</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" placeholder="Enter username">
+        <div class="display-block shadow bg-body-tertiary rounded p-3 mb-5">
+            <form class="submit_register_form d-block" method="Post">
+                <div class="form-group pb-3">
+                    <label for="usernameInput">Username</label>
+                    <input type="text" class="form-control" id="usernameInput" name="username" aria-describedby="usernameHelp" placeholder="Enter username" maxlength="64" required>
+                </div>
+
+                <div class="form-group pb-3">
+                    <label for="passwordInput">Password</label>
+                    <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password" required>
+                </div>
+
+                <input type="submit" class="btn btn-primary" value="Login">
+            </form>
+
+            <div class="pt-5">
+                Don't have an account?<a href="register.php" class="btn btn-link">Register</a>
             </div>
-
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
-            </div>
-
-            <input type="submit" class="btn btn-primary" value="Login">
-        </form>
-
-        <div class="d-block">
-            <p>Don't have an account? <a href="register.php" class="btn btn-link">Register</a></p>
         </div>
 
 <?php
