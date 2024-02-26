@@ -28,39 +28,45 @@ class AdminPagesSettingsEdit extends AdminPagesTemplate
 
         // printing out a table with all settings in the appropriate sections.
 ?>
-        <form method="POST">
-            <table class="blocktable">
-                <tr>
-                    <th>Sectionname</th>
-                    <th>Settingsname</th>
-                    <th>Settingsvalue</th>
-                </tr>
+        <h1>Settings</h1>
 
-                <?php foreach ($settings as $section => $sectionContent) { ?>
 
+        <div class="container mt-5">
+            <form method="Post">
+                <table class="blocktable table table-bordered table-striped table-hover mt-1">
                     <tr>
-                        <td><?= $section ?></td>
-                        <td></td>
-                        <td></td>
+                        <th>Sectionname</th>
+                        <th>Settingsname</th>
+                        <th>Settingsvalue</th>
                     </tr>
 
-                    <?php foreach ($sectionContent as $key => $value) { ?>
+                    <?php foreach ($settings as $section => $sectionContent) { ?>
+
                         <tr>
+                            <td><?= $section ?></td>
                             <td></td>
-                            <td><?= $key ?></td>
-                            <td><input name="<?= $section ?>[<?= $key ?>]" type="text" value="<?= $value ?>"></td>
+                            <td></td>
                         </tr>
 
-                <?php
+                        <?php foreach ($sectionContent as $key => $value) { ?>
+                            <tr>
+                                <td></td>
+                                <td><?= $key ?></td>
+                                <td><input class="form-control" name="<?= $section ?>[<?= $key ?>]" type="text" value="<?= $value ?>"></td>
+                            </tr>
+
+                    <?php
+                        }
                     }
-                }
-                ?>
+                    ?>
 
-            </table>
-            <input type="submit" value="Save Settings">
-        </form>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <input type="submit" value="Save Settings">
+                </div>
+            </form>
 
-<?php
+    <?php
 
         return '';
     }
