@@ -15,7 +15,7 @@ As stated in my goal I don't want to create the perfect Content Management Syste
   - [ ] usable interface
   - [x] acceptable page design
 3. Add features (Optional)
-  - [ ] Users can edit their pages
+  - [x] Users can edit their pages
   - [ ] search filters
   - [x] redis
   - [ ] interface for users
