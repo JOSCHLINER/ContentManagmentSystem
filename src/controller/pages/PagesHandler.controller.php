@@ -2,6 +2,7 @@
 
 namespace Controller\Pages;
 
+use Model\Cache;
 use Model\Database;
 use Model\Page;
 use Error;
@@ -37,6 +38,10 @@ class PagesHandler
         $database = Database::getInstance();
         $result = $database->query($sql, [$content, $summary, $title, $articleId], $types);
 
+        // remove cached version of page
+        $cache = Cache::getInstance();
+        $cache->removePageFromCache($articleId);
+
         return true;
     }
 
@@ -61,6 +66,10 @@ class PagesHandler
         $types = 'i';
         $result = $database->query($sql, [$articleId], $types);
 
+        // remove cached version of page
+        $cache = Cache::getInstance();
+        $cache->removePageFromCache($articleId);
+
         return true;
     }
 
@@ -71,6 +80,13 @@ class PagesHandler
      */
     public function getPage(int $pageId): Page|null
     {
+        // checking the cache for the page
+        $cache = Cache::getInstance();
+        $cachedPage = $cache->getPage($pageId);
+        if ($cachedPage != false) {
+            self::$page = $cachedPage;
+            return $cachedPage;
+        }
 
         $sql = 'SELECT article_id, author_id, username, title, content, summary, restricted, created_date FROM articles a LEFT JOIN users u ON a.author_id = u.user_id WHERE article_id = ?;';
         $type = 'i';
@@ -95,7 +111,12 @@ class PagesHandler
             $page->authorId = $result['author_id'];
             $page->restricted = (bool) $result['restricted'];
 
+            // saving a copy of the page in class
             self::$page = $page;
+            
+            // caching the page
+            $cache->cachePage($page);
+
             return $page;
         }
 
@@ -149,7 +170,7 @@ class PagesHandler
 
     private function isRestricted()
     {
-         return self::$page->restricted;
+        return self::$page->restricted;
     }
 
     public function isEditable()
