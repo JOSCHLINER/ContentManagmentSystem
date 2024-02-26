@@ -1,4 +1,4 @@
-<?
+<?php
 // initialize necessary services
 require __DIR__ . '/../../model/Includes.model.php';
 Model\Includes::initialize(false);
