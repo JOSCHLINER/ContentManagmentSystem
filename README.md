@@ -17,7 +17,7 @@ As stated in my goal I don't want to create the perfect Content Management Syste
 3. Add features (Optional)
   - [ ] Users can edit their pages
   - [ ] search filters
-  - [ ] redis
+  - [x] redis
   - [ ] interface for users
   - [ ] see history of Pages
 
