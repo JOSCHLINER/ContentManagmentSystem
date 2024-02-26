@@ -5,6 +5,7 @@ namespace Controller\Pages;
 use Model\Database;
 use Model\Page;
 use Error;
+use Controller\Users\UsersHandler;
 
 /**
  * Class to save changes made to Pages.
@@ -63,13 +64,15 @@ class PagesHandler
         return true;
     }
 
+
+    public static Page $page;
     /**
      * Function to get a page by id.
      */
     public function getPage(int $pageId): Page|null
     {
 
-        $sql = 'SELECT article_id, author_id, username, title, content, summary, created_date FROM articles a LEFT JOIN users u ON a.author_id = u.user_id WHERE article_id = ?;';
+        $sql = 'SELECT article_id, author_id, username, title, content, summary, restricted, created_date FROM articles a LEFT JOIN users u ON a.author_id = u.user_id WHERE article_id = ?;';
         $type = 'i';
 
         $database = Database::getInstance();
@@ -90,7 +93,9 @@ class PagesHandler
             $page->creationDate = $result['created_date'];
             $page->pageAuthor = $result['username'];
             $page->authorId = $result['author_id'];
+            $page->restricted = (bool) $result['restricted'];
 
+            self::$page = $page;
             return $page;
         }
 
@@ -103,7 +108,7 @@ class PagesHandler
      * 
      * @return int Returns the id of the created page.
      */
-    public function createPage(string $content, string $summary, string $title): int|null
+    public function createPage(string $content, string $summary, string $title, bool $restrictedMode): int|null
     {
 
         // escape user created html to mitigate XSS attacks
@@ -114,9 +119,9 @@ class PagesHandler
         $database = Database::getInstance();
 
         // creating page in database
-        $sql = 'INSERT INTO articles(author_id, title, content, summary) VALUES(?, ?, ?, ?);';
-        $types = 'isss';
-        $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content, $summary], $types);
+        $sql = 'INSERT INTO articles(author_id, title, content, summary, restricted) VALUES(?, ?, ?, ?, ?);';
+        $types = 'isssi';
+        $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content, $summary, (int) $restrictedMode], $types);
 
         return $this->getArticleIdByTitle($title);
     }
@@ -135,5 +140,26 @@ class PagesHandler
         }
 
         return (int) $result['article_id'];
+    }
+
+    private function isPageAuthor()
+    {
+         return self::$page->authorId == UsersHandler::getUserId();
+    }
+
+    private function isRestricted()
+    {
+         return self::$page->restricted;
+    }
+
+    public function isEditable()
+    {
+         if (!$this->isRestricted()) {
+              return true;
+         } elseif ($this->isPageAuthor()) {
+              return true;
+         } else {
+              return false;
+         }
     }
 }
