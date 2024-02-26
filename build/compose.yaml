@@ -42,6 +42,13 @@ services:
       - app-data
       - mysql
 
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'
+
   # container for holding the scripts for the app 
   app-data:
     container_name: app-data-container
