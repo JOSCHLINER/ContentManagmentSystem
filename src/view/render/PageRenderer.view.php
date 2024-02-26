@@ -10,12 +10,14 @@ use Model\Includes;
 /**
  * Class to creating pages rendering sites.
  */
-class PageRenderer {
+class PageRenderer
+{
 
      private int $pageId;
-     private Page $page;
+     public Page $page;
      private Parsedown $parser;
-     public function __construct(int $pageId) {
+     public function __construct(int $pageId)
+     {
           $this->pageId = $pageId;
 
           $handler = new PagesHandler();
@@ -24,27 +26,13 @@ class PageRenderer {
           $this->parser = Includes::getSecureParsedown();
      }
 
-     public function renderMarkdownMainContent() {
+     public function renderMarkdownMainContent()
+     {
           return $this->parser->text($this->page->pageContent);
      }
 
-     public function renderMarkdownSummary() {
+     public function renderMarkdownSummary()
+     {
           return $this->parser->text($this->page->pageSummary);
-     }
-
-     public function pageTitle(): string {
-          return $this->page->pageTitle;
-     }
-
-     public function pageAuthor(): string {
-          return $this->page->pageAuthor;
-     }
-
-     public function pageCreationDate(): string {
-          return $this->page->creationDate;
-     }
-
-     public function pageId(): int {
-          return $this->page->pageId;
      }
 }
