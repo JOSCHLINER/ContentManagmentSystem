@@ -4,6 +4,7 @@ namespace View\Templates;
 
 use Controller\Error\ResponseMessages;
 use Controller\Settings\Settings;
+use Controller\Users\UsersHandler;
 
 /**
  * Class functioning as a template for all pages.
@@ -54,7 +55,7 @@ class Pages
             <a class="navbar-brand" href="/"><?= $this->appName ?></a>
             <ul class="nav justify-content-end">
               <li class="nav-item">
-                <a class="nav-link" id="username" href="#">username</a>
+                <a class="nav-link" id="username" href="#"><?= UsersHandler::getUsername() ?></a>
               </li>
               <li class="nav-item">
                 <a class="active btn btn-primary" aria-current="page" href="/create">Create Page</a>
