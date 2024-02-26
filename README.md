@@ -12,7 +12,7 @@ As stated in my goal I don't want to create the perfect Content Management Syste
   - [x] see available pages
   - [x] view pages
 2. Usability
-  - [ ] usable interface
+  - [x] usable interface
   - [x] acceptable page design
 3. Add features (Optional)
   - [x] Users can edit their pages
