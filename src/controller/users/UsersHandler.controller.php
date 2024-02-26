@@ -40,4 +40,12 @@ class UsersHandler
 
         return $user;
     }
+
+    public static function getUsername(): string {
+        return unserialize($_SESSION['user'])->username;
+    }
+
+    public static function getUserId(): int {
+        return unserialize($_SESSION['user'])->userId;
+    }
 }
