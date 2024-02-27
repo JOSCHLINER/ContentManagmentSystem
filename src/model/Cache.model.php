@@ -82,4 +82,10 @@ class Cache {
     private function checkConnection() {
         return $this->redis->ping();
     }
+
+    public function __destruct()
+    {
+        // closing the connection to the redis database
+        $this->redis->close();
+    }
 }
