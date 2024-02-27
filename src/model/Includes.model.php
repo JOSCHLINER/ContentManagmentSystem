@@ -16,6 +16,11 @@ use Controller\Users\Authenticate;
 class Includes
 {
 
+    /**
+     * Class responsible for initializing the services.
+     * 
+     * @param bool $loginRequired Parameter for setting if the user has to be logged in to visit the page. On by default.
+     */
     public static function initialize(bool $loginRequired = true)
     {
         self::initializeAutoloader();
@@ -30,6 +35,9 @@ class Includes
         $settings->loadDatabase();
     }
 
+    /**
+     * Function for initializing the Autoloader class. 
+     */
     private static function initializeAutoloader()
     {
         // load and register the Autoloader
@@ -37,6 +45,9 @@ class Includes
         Autoloader::register();
     }
 
+    /**
+     * Function checking if user is logged in.
+     */
     private static function checkLoginStatus()
     {
         if (!Authenticate::isLoggedIn()) {
@@ -46,6 +57,11 @@ class Includes
         }
     }
 
+    /**
+     * Function for checking if a session is started.
+     * 
+     * If a session is started nothing happens, otherwise a session is started.
+     */
     private static function checkSessionStatus()
     {
         if (session_status() == PHP_SESSION_NONE) {
@@ -53,6 +69,9 @@ class Includes
         }
     }
 
+    /**
+     * Function for getting a secured version of the Parsedown class.
+     */
     public static function getSecureParsedown(): Parsedown
     {
         $parser = new Parsedown();

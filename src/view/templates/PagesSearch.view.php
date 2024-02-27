@@ -8,6 +8,7 @@ use Model\Includes;
 
 /**
  * Class to search Pages.
+ * 
  */
 class PagesSearch { # just shows all pages for now.
     private array $results;
@@ -19,14 +20,19 @@ class PagesSearch { # just shows all pages for now.
         $this->getResults();
     }
 
+    /**
+     * Function for rendering the search results
+     */
     public function render() {
 ?>
     <div class="container">
 <?php
+        // If no pages matching the filter were found
         if (empty($this->results)) {
             ResponseMessages::printMessage('No matching pages found', 'info', 'Please try another wording or phrase.');
         }
 
+        // creating a preview for each result
         foreach($this->results as $result) {
             $this->renderPreview($result);
         }
@@ -35,6 +41,9 @@ class PagesSearch { # just shows all pages for now.
 <?php
     }
 
+    /**
+     * Function for getting the matching pages from the database.
+     */
     private function getResults() {
         $database = Database::getInstance();
         $sql = 'SELECT title, summary, article_id, username FROM articles a LEFT JOIN users u ON u.user_id = a.author_id;';
@@ -47,6 +56,9 @@ class PagesSearch { # just shows all pages for now.
     }
     
 
+    /**
+     * Function for creating a preview card for a given result.
+     */
     private function renderPreview($row) {
 ?>
         <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">

@@ -8,6 +8,37 @@ use Controller\Users\UsersHandler;
 
 /**
  * Class functioning as a template for all pages.
+ * 
+ * Example of how a new page should be build with this class:
+ * ```php
+ * class NewPage extends Pages
+ * {
+ *  protected string $errorPath = '/path/page/redirects/to/on/error';
+ * 
+ *  protected function pageContent()
+ *  {
+ *  // content of the page
+ *  }
+ * 
+ *  public function handlePostRequest()
+ *  {
+ *  // what should happen if a post request is made.
+ *  }
+ * }
+ * ```
+ * 
+ * The page should be build as:
+ * ```php
+ * try {
+ *   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+ *      $page->handlePostRequest($_POST);
+ * } else {
+ *     $page->renderPage();
+ * }
+ * } catch (Error $error) {
+ *     $page->errorRedirect('An error occurred', $error->getMessage());
+ * }
+ * ```
  */
 class Pages
 {

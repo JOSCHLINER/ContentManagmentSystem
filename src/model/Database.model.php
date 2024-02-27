@@ -3,8 +3,19 @@
 namespace Model;
 
 use mysqli;
+use Error;
 use Exception;
 
+/**
+ * Class handling the database.
+ * 
+ * This class follows the singleton pattern. 
+ * The settings for the database have to be set before the class can be constructed.
+ * ```php
+ * Database::loadSettings();
+ * Database::getInstance();
+ * ```
+ */
 class Database
 {
     private function __construct()
@@ -12,11 +23,13 @@ class Database
         if ($this->settingsAreLoaded()) {
             $this->connect();
         } else {
-            throw new Exception('The database settings were not loaded before initialization of the database class');
+            throw new Error('The database settings were not loaded before initialization of the database class');
         }
     }
 
-    // function for connecting to the database
+    /**
+     * Function for connecting to the database
+     */
     private mysqli $connection;
     private function connect(): void
     {
@@ -24,11 +37,15 @@ class Database
             $this->connection = new mysqli(self::$hostname, self::$username, self::$password, self::$database, self::$port);
             $this->testDatabaseConnection();
         } catch (Exception $error) {
-            die('Failed to connect to database: ' . $error->getMessage() . $error);
+            throw new Error('Failed to connect to database: ' . $error->getMessage() . $error);
         }
     }
 
-    // function for getting an instance of this class, by doing it this way we ensure that all code can access the same database connection effortless
+    /**
+     * Function for getting an instance of this class. 
+     * 
+     * This function follows the singelton pattern, ensuring that all   
+     */
     private static self $instance;
     public static function getInstance(): self
     {
@@ -38,12 +55,17 @@ class Database
         return self::$instance;
     }
 
-    // function for loading all the settings to connect to the database
     private static string $hostname;
     private static string $database;
     private static string $username;
     private static string $password;
     private static int $port;
+
+    /**
+     * Function for loading the settings for the database.
+     * 
+     * Needs to be called before a connection can be made. 
+     */
     public static function loadSettings(string $database, string $host, string $username, string $password, int $port = 3306): void
     {
         self::$database = $database;
@@ -67,15 +89,19 @@ class Database
         }
     }
 
-    // function for testing the connection to the database
+    /**
+     * Function for testing the database connection
+     */
     public function testDatabaseConnection(): void
     {
         if ($this->connection->connect_error) {
-            throw new Exception('Connection error with database: ' . $this->connection->connect_error);
+            throw new Error('Connection error with database: ' . $this->connection->connect_error);
         }
     }
 
-    // function for querying the database with user provided inputs
+    /**
+     * Function for safe querying of the database.
+     */
     public function query(string $sql, array $params = [], string $types = ""): mixed
     {
         try {
@@ -84,32 +110,35 @@ class Database
             $prepared = ($this->connection)->prepare($sql);
             $prepared->bind_param($types, ...$params);
 
-            if (!$prepared->execute())
-            {
+            if (!$prepared->execute()) {
                 $error = $prepared->error;
                 $errornumber = $prepared->errno;
-                throw new Exception('Prepare Statement Failed' . $error . ', ' . $errornumber);
+                throw new Error('Prepare Statement Failed' . $error . ', ' . $errornumber);
             }
 
             $result = $prepared->get_result();
 
             $prepared->close();
-        } catch (Exception $error) {
-            throw new Exception('Failed to query database ' . $error->getMessage());
+        } catch (Error $error) {
+            throw new Error('Failed to query database ' . $error->getMessage());
             return null;
         }
 
         return $result;
     }
 
-    // function for unsafe querying of the database
+    /**
+     * Function for unsafe querying of the database.
+     * 
+     * ***Should not be used with provided data!***
+     */
     public function queryUnsafe(string $sql): mixed
     {
         try {
             $this->testDatabaseConnection();
             $result = $this->connection->query($sql);
-        } catch (Exception $error) {
-            die('Failed to query database' . $error->getMessage());
+        } catch (Error $error) {
+            throw new Error('Failed to query database');
         }
 
         return $result;

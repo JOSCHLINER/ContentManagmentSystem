@@ -13,5 +13,5 @@ class Page {
     public string $pageAuthor;
     public string $authorId;
     public string $pageSummary;
-    public bool $restricted = false;
+    public bool $restricted;
 }

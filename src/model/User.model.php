@@ -2,6 +2,9 @@
 
 namespace Model;
 
+/**
+ * Object for storing all information associated with the user.
+ */
 class User
 {
     public string $username;
