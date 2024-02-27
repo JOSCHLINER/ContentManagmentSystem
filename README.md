@@ -12,14 +12,15 @@ As stated in my goal I don't want to create the perfect Content Management Syste
   - [x] see available pages
   - [x] view pages
 2. Usability
-  - [ ] usable interface
+  - [x] usable interface
   - [x] acceptable page design
 3. Add features (Optional)
-  - [ ] Users can edit their pages
+  - [x] Users can edit their pages
   - [ ] search filters
-  - [ ] redis
+  - [x] caching with redis
   - [ ] interface for users
   - [ ] see history of Pages
 
-# How to install
-Clone the repository using `git clone https://github.com/JOSCHLINER/Markdown-CMS`. This project is built with docker meaning docker has to be installed on the system. Here on how to install docker: https://docs.docker.com/engine/install/. To start the application go inside the build container of the repo and run `docker compose up -d`. The page should now be up and running on localhost port 80.
+# How to build
+See the [wiki](https://github.com/JOSCHLINER/Markdown-CMS/wiki/Build).
+
