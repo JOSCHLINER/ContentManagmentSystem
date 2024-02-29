@@ -36,7 +36,7 @@ class PagesHandler
         $types = 'sssi';
 
         $database = Database::getInstance();
-        $result = $database->query($sql, [$content, $summary, $title, $articleId], $types);
+        $result = $database->query($sql, [gzcompress($content, -1), gzcompress($summary, -1), $title, $articleId], $types);
 
         // remove cached version of page
         $cache = Cache::getInstance();
@@ -104,8 +104,8 @@ class PagesHandler
             // fill the values in the Page Object
             $page->pageId = $pageId;
             $page->pageTitle = $result['title'];
-            $page->pageContent = $result['content'];
-            $page->pageSummary = $result['summary'];
+            $page->pageContent = gzuncompress($result['content']);
+            $page->pageSummary = gzuncompress($result['summary']);
             $page->creationDate = $result['created_date'];
             $page->pageAuthor = $result['username'];
             $page->authorId = $result['author_id'];
