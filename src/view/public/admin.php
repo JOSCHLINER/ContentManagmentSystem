@@ -26,10 +26,6 @@ AdminPagesAutoloader::register($_SERVER['REQUEST_URI']);
 $class = AdminPagesAutoloader::extractClassName();
 if (class_exists($class)) {
 
-    //load Settings into database
-    $settings = new Settings();
-    $settings->loadDatabase();
-
     $instance = $class::createInstance();
     try {
         // handle requests
