@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Controller\Settings\SensibleSettingsLoader;
 use mysqli;
 use Error;
 use Exception;
@@ -20,11 +21,11 @@ class Database
 {
     private function __construct()
     {
-        if ($this->settingsAreLoaded()) {
-            $this->connect();
-        } else {
-            throw new Error('The database settings were not loaded before initialization of the database class');
-        }
+        // loading the credentials and other information
+        (new SensibleSettingsLoader())->loadDatabaseSettings();
+
+        // connecting to the database
+        $this->connect();
     }
 
     /**
@@ -34,7 +35,7 @@ class Database
     private function connect(): void
     {
         try {
-            $this->connection = new mysqli(self::$hostname, self::$username, self::$password, self::$database, self::$port);
+            $this->connection = new mysqli(self::$settings->host, self::$settings->username, self::$settings->password, self::$settings->database, self::$settings->port);
             $this->testDatabaseConnection();
         } catch (Exception $error) {
             throw new Error('Failed to connect to database: ' . $error->getMessage() . $error);
@@ -55,30 +56,15 @@ class Database
         return self::$instance;
     }
 
-    private static string $hostname;
-    private static string $database;
-    private static string $username;
-    private static string $password;
-    private static int $port;
-
+    private static ConnectionSettings $settings;
     /**
      * Function for loading the settings for the database.
      * 
      * Needs to be called before a connection can be made. 
      */
-    public static function loadSettings(string $database, string $host, string $username, string $password, int $port = 3306): void
+    public static function loadSettings($settings): void
     {
-        self::$database = $database;
-        self::$hostname = $host;
-        self::$username = $username;
-        self::$password = $password;
-        self::$port = $port;
-    }
-
-    // function for checking if the settings have been loaded
-    public function settingsAreLoaded(): bool
-    {
-        return isset(self::$hostname);
+        self::$settings = $settings;
     }
 
     // function for closing the database connection

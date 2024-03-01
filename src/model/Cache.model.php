@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Controller\Settings\SensibleSettingsLoader;
 use Redis;
 
 /**
@@ -21,11 +22,15 @@ class Cache {
     private Redis $redis;
     private function __construct()
     {
+        // loading the settings for the connection
+        (new SensibleSettingsLoader())->loadCacheSettings();
+
+        // creating class for connection to redis
         $this->redis = new Redis();
 
         // connecting to redis database
-        $this->redis->connect('redis', 6379);
-        // $this->redis->auth('password');
+        $this->redis->connect(self::$settings->username, self::$settings->port);
+        // $this->redis->auth(self::$settings->password);
     }
 
     /**
@@ -38,6 +43,18 @@ class Cache {
 
         self::$instance = new self;
         return self::$instance;
+    }
+
+    /**
+     * ConnectionSettings class holding the credentials for the database.
+     */
+    private static ConnectionSettings $settings;
+
+    /**
+     * Function for loading the credentials before the connection to the database is made.
+     */
+    public static function loadSettings(ConnectionSettings $settings) {
+        self::$settings = $settings;
     }
 
     /**
@@ -61,6 +78,7 @@ class Cache {
     /**
      * Function to cache a page.
      * 
+     * Page is cached for 5 minutes.
      * @return bool Returns true on success else false.
      */
     public function cachePage(Page &$page) {
@@ -69,7 +87,7 @@ class Cache {
         }
 
         $key = 'page:' . $page->pageId;
-        return $this->redis->set($key, serialize($page));
+        return $this->redis->set($key, serialize($page), 300);
     }
 
     public function removePageFromCache(int $pageId) {
