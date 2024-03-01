@@ -25,17 +25,6 @@ class Settings
         return true;
     }
 
-    public function loadDatabase(): void
-    {
-        $database = self::$settings['Database']['name'];
-        $host = self::$settings['Database']['host'];
-        $port = self::$settings['Database']['port'];
-        $user = self::$settings['Database']['user'];
-        $password = self::$settings['Database']['password'];
-
-        Database::loadSettings($database, $host, $user, $password, $port);
-    }
-
     public function getAppName(): string {
         return isset(self::$settings['About']['app_name']) ? self::$settings['About']['app_name'] : '';
     }
