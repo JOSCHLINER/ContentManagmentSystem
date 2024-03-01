@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS users(
 CREATE TABLE IF NOT EXISTS articles(
     article_id INT AUTO_INCREMENT PRIMARY KEY,
     author_id INT NOT NULL, 
-    content TEXT NOT NULL,
-    summary VARCHAR(600) NOT NULL,
+    content LONGBLOB NOT NULL,
+    summary BLOB NOT NULL,
     title VARCHAR(100) NOT NULL,
     restricted BOOLEAN DEFAULT FALSE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
