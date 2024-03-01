@@ -70,7 +70,7 @@ class PagesSearch { # just shows all pages for now.
             <hr>
 
             <p>
-            <?= Includes::getSecureParsedown()->text($row['summary']) ?>
+            <?= Includes::getSecureParsedown()->text(gzuncompress($row['summary'])) ?>
             </p>
             </a>
 
