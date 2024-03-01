@@ -133,8 +133,8 @@ class PagesHandler
     {
 
         // escape user created html to mitigate XSS attacks
-        $content = htmlspecialchars($content);
-        $summary = htmlspecialchars($summary);
+        $content = gzcompress(htmlspecialchars($content));
+        $summary = gzcompress(htmlspecialchars($summary));
         $title = htmlspecialchars($title);
 
         $database = Database::getInstance();
@@ -142,7 +142,7 @@ class PagesHandler
         // creating page in database
         $sql = 'INSERT INTO articles(author_id, title, content, summary, restricted) VALUES(?, ?, ?, ?, ?);';
         $types = 'isssi';
-        $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content, $summary, (int) $restrictedMode], $types);
+        $result = $database->query($sql, [unserialize($_SESSION['user'])->userId, $title, $content, $summary, (int) $restrictedMode], $types);
 
         return $this->getArticleIdByTitle($title);
     }
