@@ -29,10 +29,6 @@ class Includes
         if ($loginRequired) {
             self::checkLoginStatus();
         }
-
-        //load Settings into database
-        $settings = new Settings();
-        $settings->loadDatabase();
     }
 
     /**
