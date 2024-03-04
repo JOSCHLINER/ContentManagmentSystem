@@ -1,22 +1,23 @@
+#! /usr/bin/bash
+if [ `id -u` = 0]; then
+    echo "Please run this script with sudo permissions! This script can not run without it.";
+    exit 1;
+
 sudo apt update && sudo apt upgrade -y
 
-# moving files into the directory for nginx
-mkdir ../www/html/
-cp -a ../src/. ../www/html/
-chmod 777 ../www/html/configuration/settings.ini
+# changing permissions for the settings file
+chmod 777 ../src/configuration/settings.ini
 
-# install docker
-# sudo apt install apt-transport-https ca-certificates curl software-properties-common
-# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-# sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-# apt-cache policy docker-ce
-# sudo apt install docker-ce
-
-# check docker status
-sudo systemctl status docker
+# checking if docker is installed
+docker -v
+if [ $? -ne 0 ]; then
+    echo "Docker is not currently installed on your system! Please install docker to continue.";
+    exit 1;
+fi
 
 # running the compose script
 docker compose up -d
 docker ps
 
 echo "Everything is up and running"
+exit 0
